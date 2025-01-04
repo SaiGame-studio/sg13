@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class InventoryManager : SaiSingleton<InventoryManager>
 {
+
+    [SerializeField] protected ItemInventory choosedItem;
+    public ItemInventory ChoosedItem => choosedItem;
+
     [SerializeField] protected List<InventoryCtrl> inventories;
     [SerializeField] protected List<ItemProfileSO> itemProfiles;
 
@@ -116,5 +120,47 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         ItemProfileSO[] itemProfileSOs = Resources.LoadAll<ItemProfileSO>("/");
         this.itemProfiles = new List<ItemProfileSO>(itemProfileSOs);
         Debug.Log(transform.name + ": LoadItemProfiles", gameObject);
+    }
+
+    public virtual ItemCode RandomItem()
+    {
+        int karmaPercent = 70;
+        int rand = Random.Range(0, 100);
+        if (rand < karmaPercent) return this.RandomKarma();
+        return this.RandomFate();
+    }
+
+    public virtual ItemCode RandomKarma()
+    {
+        List<ItemCode> specificItems = new()
+        {
+            ItemCode.Meat,
+            ItemCode.Gold,
+        };
+        int randomIndex = Random.Range(0, specificItems.Count);
+        return specificItems[randomIndex];
+    }
+
+    public virtual ItemCode RandomFate()
+    {
+        List<ItemCode> specificItems = new()
+        {
+            ItemCode.Water,
+            ItemCode.Banana,
+        };
+        int randomIndex = Random.Range(0, specificItems.Count);
+        return specificItems[randomIndex];
+    }
+
+    public virtual void SetChoosedItem(ItemInventory itemInventory)
+    {
+        this.choosedItem = itemInventory;
+    }
+
+    public virtual void UseChoosedItem()
+    {
+        this.choosedItem.Deduct(1);
+        if (this.choosedItem.ItemProfile.isKarma) this.AddItem(ItemCode.Karma, 1);
+        else this.AddItem(ItemCode.Fate, 1);
     }
 }

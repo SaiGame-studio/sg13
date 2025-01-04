@@ -102,4 +102,9 @@ public class PlayerMoving : SaiBehaviour
         this.isFinish = false;
         this.currentPoint = null;
     }
+
+    public virtual void Toggle()
+    {
+        this.canMove = !this.canMove;
+    }
 }
