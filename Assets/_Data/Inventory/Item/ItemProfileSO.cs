@@ -7,6 +7,9 @@ public class ItemProfileSO : ScriptableObject
     public ItemCode itemCode;
     public string itemName;
     public bool isStackable = false;
+    public bool isKarma = false;
+    public bool eatable = false;
+    public Sprite image;
 
     protected virtual void Reset()
     {

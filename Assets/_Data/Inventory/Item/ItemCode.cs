@@ -4,11 +4,13 @@ using UnityEngine;
 
 public enum ItemCode
 {
-    NoName = 0,
-    Gold = 1,
-    PlayerExp = 2,
+    NoItem = 0,
 
-    Wand = 100,
+    Karma = 100,
+    Gold = 101,
+    Meat = 102,
 
-    PotionMana = 200,
+    Fate = 200,
+    Water = 201,
+    Banana = 202,
 }

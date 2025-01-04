@@ -53,7 +53,7 @@ public class VillagerPoint : SaiBehaviour
         VillagerCtrl villager = VillagersCtrl.Instance.Spawner.PoolPrefabs.GetRandom();
         VillagerCtrl villagerObj = VillagersCtrl.Instance.Spawner.Spawn(villager, transform.position);
         villagerObj.Moving.SetTarget(this.standPoint);
+        villagerObj.RandomItem();
         villagerObj.SetActive(true);
-
     }
 }

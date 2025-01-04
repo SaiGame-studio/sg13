@@ -12,12 +12,23 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
     [SerializeField] protected Animator animator;
     public Animator Animator { get { return animator; } }
 
+    [SerializeField] protected PlayerMoving moving;
+    public PlayerMoving Moving { get { return moving; } }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadNavMeshAgent();
         this.LoadModel();
         this.LoadAnimator();
+        this.LoadPlayerMoving();
+    }
+
+    protected virtual void LoadPlayerMoving()
+    {
+        if (this.moving != null) return;
+        this.moving = GetComponentInChildren<PlayerMoving>();
+        Debug.Log(transform.name + ": LoadPlayerMoving", gameObject);
     }
 
     protected virtual void LoadNavMeshAgent()
@@ -42,7 +53,7 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
     {
         if (this.animator != null) return;
         this.animator = this.model.GetComponent<Animator>();
-        this.animator.applyRootMotion = true;
+        this.animator.applyRootMotion = false;
         Debug.Log(transform.name + ": LoadAnimator", gameObject);
     }
 }
