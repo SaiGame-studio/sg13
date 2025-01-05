@@ -1,20 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIInventory : SaiSingleton<UIInventory>
 {
     protected bool isShow = true;
     protected bool IsShow => isShow;
-
     [SerializeField] protected Transform showHide;
-
     [SerializeField] protected BtnItemInventory defaultItemInventoryUI;
-    protected List<BtnItemInventory> btnItems = new();
-
-    [SerializeField] protected Transform btnEat;
+    [SerializeField] protected Transform btnUse;
+    [SerializeField] protected Image btnUseImage;
+    [SerializeField] protected ImagesSO btnImages;
 
     [SerializeField] protected BtnItemInventory currentBtnItem;
     public BtnItemInventory CurrentBtnItem => currentBtnItem;
+
+    [SerializeField] protected List<BtnItemInventory> btnItems = new();
 
     protected override void Start()
     {
@@ -39,12 +40,21 @@ public class UIInventory : SaiSingleton<UIInventory>
         this.LoadBtnItemInventory();
         this.LoadShowHide();
         this.LoadBtnEat();
+        this.LoadBtnImages();
+    }
+
+    protected virtual void LoadBtnImages()
+    {
+        if (this.btnImages != null) return;
+        this.btnImages = Resources.Load<ImagesSO>("BtnUseImages");
+        Debug.LogWarning(transform.name + ": LoadBtnImages", gameObject);
     }
 
     protected virtual void LoadBtnEat()
     {
-        if (this.btnEat != null) return;
-        this.btnEat = this.showHide.Find("BtnUseItem");
+        if (this.btnUse != null) return;
+        this.btnUse = this.showHide.Find("BtnUseItem");
+        this.btnUseImage = this.btnUse.GetComponent<Image>();
         Debug.Log(transform.name + ": LoadBtnEat", gameObject);
     }
 
@@ -89,26 +99,42 @@ public class UIInventory : SaiSingleton<UIInventory>
     {
         if (!this.isShow) return;
 
-        this.UpdateFromInventory(InventoryManager.Instance.Monies());
+        this.ClearEmptyItems();
+
+        //this.UpdateFromInventory(InventoryManager.Instance.Monies());
         this.UpdateFromInventory(InventoryManager.Instance.Items());
 
         this.ShowEatButton();
+    }
+
+    protected virtual void ClearEmptyItems()
+    {
+        BtnItemInventory item;
+        for (int i = 0; i < this.btnItems.Count; i++)
+        {
+            item = this.btnItems[i];
+            if (item != null) continue;
+            this.btnItems.RemoveAt(i);
+            break;
+        }
     }
 
     protected virtual void ShowEatButton()
     {
         bool eatable = true;
         ItemInventory choosedItem = InventoryManager.Instance.ChoosedItem;
-        if (choosedItem.ItemID == 0) eatable = false;
-        else if (!choosedItem.ItemProfile.eatable) eatable = false;
-        this.btnEat.gameObject.SetActive(eatable);
+        if (choosedItem.ItemID == 0) return;
+        if (!choosedItem.ItemProfile.eatable) eatable = false;
+        if (choosedItem.ItemProfile.isKarma) this.btnUseImage.sprite = this.btnImages.images[1];
+        else this.btnUseImage.sprite = this.btnImages.images[0];
+        this.btnUse.gameObject.SetActive(eatable);
     }
 
     protected virtual void UpdateFromInventory(InventoryCtrl itemInvCtrl)
     {
         foreach (ItemInventory itemInventory in itemInvCtrl.Items)
         {
-            if(itemInventory.itemCount > 0) this.AddItemToUI(itemInventory);
+            if (itemInventory.itemCount > 0) this.AddItemToUI(itemInventory);
         }
     }
 

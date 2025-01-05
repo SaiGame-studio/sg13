@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class InventoryManager : SaiSingleton<InventoryManager>
 {
-
+    [SerializeField] protected float karmaRate = 80;
+    [SerializeField] protected float karmaDefaultRate = 80;
     [SerializeField] protected ItemInventory choosedItem;
     public ItemInventory ChoosedItem => choosedItem;
 
     [SerializeField] protected List<InventoryCtrl> inventories;
-    [SerializeField] protected List<ItemProfileSO> itemProfiles;
+    [SerializeField] protected List<UIImages> itemProfiles;
 
     protected override void LoadComponents()
     {
@@ -66,9 +67,9 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         return null;
     }
 
-    public virtual ItemProfileSO GetProfileByCode(ItemCode itemCodeName)
+    public virtual UIImages GetProfileByCode(ItemCode itemCodeName)
     {
-        foreach (ItemProfileSO itemProfile in this.itemProfiles)
+        foreach (UIImages itemProfile in this.itemProfiles)
         {
             if (itemProfile.itemCode == itemCodeName) return itemProfile;
         }
@@ -95,14 +96,14 @@ public class InventoryManager : SaiSingleton<InventoryManager>
 
     public virtual void AddItem(ItemCode itemCode, int itemCount)
     {
-        ItemProfileSO itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
+        UIImages itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
         ItemInventory item = new(itemProfile, itemCount);
         this.AddItem(item);
     }
 
     public virtual void RemoveItem(ItemCode itemCode, int itemCount)
     {
-        ItemProfileSO itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
+        UIImages itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
         ItemInventory item = new(itemProfile, itemCount);
         this.RemoveItem(item);
     }
@@ -117,16 +118,18 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     protected virtual void LoadItemProfiles()
     {
         if (this.itemProfiles.Count > 0) return;
-        ItemProfileSO[] itemProfileSOs = Resources.LoadAll<ItemProfileSO>("/");
-        this.itemProfiles = new List<ItemProfileSO>(itemProfileSOs);
+        UIImages[] itemProfileSOs = Resources.LoadAll<UIImages>("/");
+        this.itemProfiles = new List<UIImages>(itemProfileSOs);
         Debug.Log(transform.name + ": LoadItemProfiles", gameObject);
     }
 
     public virtual ItemCode RandomItem()
     {
-        int karmaPercent = 70;
+        int playerLevel = PlayerCtrl.Instance.Level.CurrentLevel;
+        int karmaPercent = (int)(this.karmaDefaultRate - (playerLevel * 2.5));
+        this.karmaRate = karmaPercent;
         int rand = Random.Range(0, 100);
-        if (rand < karmaPercent) return this.RandomKarma();
+        if (rand < this.karmaRate) return this.RandomKarma();
         return this.RandomFate();
     }
 

@@ -17,10 +17,20 @@ public class PathCtrl : SaiBehaviour
         foreach (Transform child in transform)
         {
             Point point = child.GetComponent<Point>();
-            //point.LoadNextPoint();
             this.points.Add(point);
         }
+        this.UpdatePointsName();
         Debug.Log(transform.name + ": LoadPoints", gameObject);
+    }
+
+    protected virtual void UpdatePointsName()
+    {
+        int indexer = 0;
+        foreach (Point point in this.points)
+        {
+            point.name = "point_" + indexer;
+            indexer++;
+        }
     }
 
     public virtual Point GetPoint(int index)

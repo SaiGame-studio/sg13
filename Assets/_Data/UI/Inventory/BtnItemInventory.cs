@@ -54,14 +54,12 @@ public class BtnItemInventory : ButttonAbstract
 
     public override void OnClick()
     {
-        Debug.Log("Choose Item");
         this.ChooseThisItem();
     }
 
     public override void OnDoubleClick()
     {
         this.ChooseThisItem();
-        Debug.Log("Use Item");
     }
 
     public virtual void ChooseThisItem()

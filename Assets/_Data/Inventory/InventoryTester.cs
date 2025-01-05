@@ -6,13 +6,10 @@ public class InventoryTester : SaiBehaviour
     protected override void Start()
     {
         base.Start();
-        this.AddTestItems(ItemCode.Fate, 1);
-        this.AddTestItems(ItemCode.Karma, 1);
-
-        this.AddTestItems(ItemCode.Water, 1);
-        this.AddTestItems(ItemCode.Banana, 1);
-        this.AddTestItems(ItemCode.Gold, 1);
-        this.AddTestItems(ItemCode.Meat, 1);
+        this.AddTestItems(ItemCode.Water, 100);
+        this.AddTestItems(ItemCode.Banana, 100);
+        this.AddTestItems(ItemCode.Gold, 100);
+        this.AddTestItems(ItemCode.Meat, 100);
     }
 
     [ProButton]

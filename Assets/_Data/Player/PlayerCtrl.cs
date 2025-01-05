@@ -15,6 +15,10 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
     [SerializeField] protected PlayerMoving moving;
     public PlayerMoving Moving { get { return moving; } }
 
+
+    [SerializeField] protected PlayerLevel level;
+    public PlayerLevel Level { get { return level; } }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -22,6 +26,14 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
         this.LoadModel();
         this.LoadAnimator();
         this.LoadPlayerMoving();
+        this.LoadPlayerLevel();
+    }
+
+    protected virtual void LoadPlayerLevel()
+    {
+        if (this.level != null) return;
+        this.level = GetComponentInChildren<PlayerLevel>();
+        Debug.Log(transform.name + ": LoadPlayerLevel", gameObject);
     }
 
     protected virtual void LoadPlayerMoving()
