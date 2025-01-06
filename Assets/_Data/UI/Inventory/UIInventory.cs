@@ -86,12 +86,14 @@ public class UIInventory : SaiSingleton<UIInventory>
     {
         this.isShow = true;
         this.showHide.gameObject.SetActive(this.isShow);
+        PlayerCtrl.Instance.Moving.Sitting();
     }
 
     public virtual void Hide()
     {
         this.showHide.gameObject.SetActive(false);
         this.isShow = false;
+        PlayerCtrl.Instance.Moving.StandUp();
     }
 
     public virtual void Toggle()

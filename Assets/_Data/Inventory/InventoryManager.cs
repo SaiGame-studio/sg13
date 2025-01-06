@@ -139,12 +139,16 @@ public class InventoryManager : SaiSingleton<InventoryManager>
 
     public virtual void UseChoosedItem()
     {
-        if (!this.choosedItem.Deduct(1)) return;
+        int useCount = 1;
+        if (this.choosedItem.ItemID == 0) return;
+        if (!this.choosedItem.CanDeduct(useCount)) return;
         if (!this.CheckPlayerNeed()) return;
 
         int fate = this.choosedItem.ItemProfile.fate;
         if (this.choosedItem.ItemProfile.isKarma) this.DeductFate(fate);
-        else this.AddItem(ItemCode.Fate, fate);
+        else this.AddFate(fate);
+
+        this.choosedItem.Deduct(useCount);
     }
 
     protected virtual bool CheckPlayerNeed()
@@ -152,13 +156,13 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         int itemHunger = this.choosedItem.ItemProfile.hunger;
         int itemThirst = this.choosedItem.ItemProfile.thirst;
         int itemfiber = this.choosedItem.ItemProfile.fiber;
-        if (!PlayerNeedsManager.Instance.CanEat(itemHunger)) return false;
-        if (!PlayerNeedsManager.Instance.CanDrink(itemThirst)) return false;
-        if (!PlayerNeedsManager.Instance.CanSew(itemfiber)) return false;
+        if (!PlayerNeeds.Instance.CanEat(itemHunger)) return false;
+        if (!PlayerNeeds.Instance.CanDrink(itemThirst)) return false;
+        if (!PlayerNeeds.Instance.CanSew(itemfiber)) return false;
 
-        if (itemHunger > 0) PlayerNeedsManager.Instance.Eat(itemHunger);
-        if (itemThirst > 0) PlayerNeedsManager.Instance.Drink(itemThirst);
-        if (itemfiber > 0) PlayerNeedsManager.Instance.Sew(itemfiber);
+        if (itemHunger > 0) PlayerNeeds.Instance.Eat(itemHunger);
+        if (itemThirst > 0) PlayerNeeds.Instance.Drink(itemThirst);
+        if (itemfiber > 0) PlayerNeeds.Instance.Sew(itemfiber);
         return true;
     }
 
@@ -166,5 +170,10 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     {
         this.DeductItem(ItemCode.Fate, deductNumber);
         PlayerCtrl.Instance.Level.SetLevel(1);
+    }
+
+    public virtual void AddFate(int deductNumber)
+    {
+        this.AddItem(ItemCode.Fate, deductNumber);
     }
 }

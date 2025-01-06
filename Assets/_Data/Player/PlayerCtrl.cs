@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class PlayerCtrl : SaiSingleton<PlayerCtrl>
 {
     [SerializeField] protected Transform model;
+    public Transform Model => model;
 
     [SerializeField] protected NavMeshAgent agent;
     public NavMeshAgent Agent { get { return agent; } }
@@ -15,9 +16,11 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
     [SerializeField] protected PlayerMoving moving;
     public PlayerMoving Moving { get { return moving; } }
 
-
     [SerializeField] protected PlayerLevel level;
     public PlayerLevel Level { get { return level; } }
+
+    [SerializeField] protected PlayerNeeds needs;
+    public PlayerNeeds Needs { get { return needs; } }
 
     protected override void LoadComponents()
     {
@@ -27,6 +30,14 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
         this.LoadAnimator();
         this.LoadPlayerMoving();
         this.LoadPlayerLevel();
+        this.LoadPlayerNeeds();
+    }
+
+    protected virtual void LoadPlayerNeeds()
+    {
+        if (this.needs != null) return;
+        this.needs = GetComponentInChildren<PlayerNeeds>();
+        Debug.Log(transform.name + ": LoadPlayerNeeds", gameObject);
     }
 
     protected virtual void LoadPlayerLevel()
@@ -65,7 +76,7 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
     {
         if (this.animator != null) return;
         this.animator = this.model.GetComponent<Animator>();
-        this.animator.applyRootMotion = false;
+        this.animator.applyRootMotion = true;
         Debug.Log(transform.name + ": LoadAnimator", gameObject);
     }
 }

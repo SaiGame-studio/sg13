@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
+public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 {
+    [SerializeField] protected PlayerCtrl playerCtrl;
+
     [Header("Player Needs")]
+    [SerializeField] protected bool noDecay = false; // Current hunger level
     [SerializeField] protected float maxNeeds = 100f; // Current hunger level
     [SerializeField] protected float hunger = 70f; // Current hunger level
     [SerializeField] protected float thirst = 70f; // Current thirst level
@@ -18,23 +21,55 @@ public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
     [SerializeField] protected float criticalThirst = 27f; // Threshold for critical thirst
 
     [SerializeField] protected bool isAlive = true; // Player's alive state
+    public bool IsAlive { get { return isAlive; } }
 
     private void Update()
     {
+        this.Needing();
+    }
+
+    protected override void LoadComponents()
+    {
+        base.LoadComponents();
+        this.LoadPlayerCtrl();
+    }
+
+    protected virtual void LoadPlayerCtrl()
+    {
+        if(this.playerCtrl != null) return;
+        this.playerCtrl = GetComponentInParent<PlayerCtrl>(); 
+        Debug.LogWarning(transform.name + ": LoadPlayerCtrl", gameObject);
+    }
+
+    protected virtual void Needing()
+    {
+        this.playerCtrl.Animator.SetBool("isAlive", this.isAlive);
+
         if (!isAlive) return;
 
-        // Decrease hunger and thirst over time
-        hunger -= hungerDecayRate * Time.deltaTime;
-        thirst -= thirstDecayRate * Time.deltaTime;
-        fiber -= fiberDecayRate * Time.deltaTime;
+        if(!this.noDecay) this.DecayNeeding();
 
-        // Clamp hunger and thirst to prevent negative values
-        hunger = Mathf.Clamp(hunger, 0f, 100f);
-        thirst = Mathf.Clamp(thirst, 0f, 100f);
-        fiber = Mathf.Clamp(fiber, 0f, 100f);
+        this.hunger = Mathf.Clamp(this.hunger, 0f, 100f);
+        this.thirst = Mathf.Clamp(this.thirst, 0f, 100f);
+        this.fiber = Mathf.Clamp(this.fiber, 0f, 100f);
 
-        // Check for critical levels
-        CheckCriticalNeeds();
+        this.CheckCriticalNeeds();
+    }
+
+    protected virtual void DecayNeeding()
+    {
+        float hungerRate = this.hungerDecayRate;
+        if (this.thirst <= 0) hungerRate *= 4;
+        if (this.fiber <= 0) hungerRate *= 2;
+        this.hunger -= hungerRate * Time.deltaTime;
+
+        float thirstRate = this.thirstDecayRate;
+        if (this.hunger <= 0) thirstRate *= 3;
+        if (this.fiber <= 0) thirstRate *= 2;
+        this.thirst -= thirstRate * Time.deltaTime;
+
+        float fiberRate = this.fiberDecayRate;
+        this.fiber -= fiberRate * Time.deltaTime;
     }
 
     public void Eat(float amount)
@@ -85,17 +120,17 @@ public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
         return newThirst <= this.maxNeeds;
     }
 
-    private void CheckCriticalNeeds()
+    protected virtual void CheckCriticalNeeds()
     {
         if (hunger <= criticalHunger)
         {
-            Debug.LogWarning("Hunger level is critical!");
+            //Debug.LogWarning("Hunger level is critical!");
             HandleCriticalHunger();
         }
 
         if (thirst <= criticalThirst)
         {
-            Debug.LogWarning("Thirst level is critical!");
+            //Debug.LogWarning("Thirst level is critical!");
             HandleCriticalThirst();
         }
 
@@ -106,22 +141,37 @@ public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
         }
     }
 
-    private void HandleCriticalHunger()
+    protected virtual void HandleCriticalHunger()
     {
         // Implement effects like slower movement, health decrease, etc.
-        Debug.Log("Player is very hungry. Consider eating soon.");
+        //Debug.Log("Player is very hungry. Consider eating soon.");
     }
 
-    private void HandleCriticalThirst()
+    protected virtual void HandleCriticalThirst()
     {
         // Implement effects like slower movement, blurred vision, etc.
-        Debug.Log("Player is very thirsty. Consider drinking water soon.");
+        //Debug.Log("Player is very thirsty. Consider drinking water soon.");
     }
 
-    private void PlayerDeath()
+    protected virtual void PlayerDeath()
     {
-        isAlive = false;
-        Debug.LogError("Player has died from starvation and dehydration!");
+        this.isAlive = false;
+        //Debug.LogError("Player has died from starvation and dehydration!");
         // Trigger death logic (e.g., respawn, game over screen, etc.)
+    }
+
+    public virtual float HungerValue()
+    {
+        return this.hunger / this.maxNeeds;
+    }
+
+    public virtual float ThirstValue()
+    {
+        return this.thirst / this.maxNeeds;
+    }
+
+    public virtual float FiberValue()
+    {
+        return this.fiber / this.maxNeeds;
     }
 }

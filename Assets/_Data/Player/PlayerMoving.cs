@@ -13,6 +13,7 @@ public class PlayerMoving : SaiBehaviour
     [SerializeField] protected float stopDistance = 1f;
     [SerializeField] protected bool canMove = true;
     [SerializeField] protected bool isMoving = false;
+    [SerializeField] protected bool isSitting = false;
     [SerializeField] protected bool isFinish = false;
     [SerializeField] protected bool isLoopPath = true;
 
@@ -47,13 +48,14 @@ public class PlayerMoving : SaiBehaviour
 
     protected virtual void Moving()
     {
-
-        if (!this.canMove)
+        bool isAlive = this.ctrl.Needs.IsAlive;
+        if (!this.canMove || this.isSitting || !isAlive)
         {
             this.ctrl.Agent.isStopped = true;
             return;
         }
 
+        this.FixModel();
         this.FindNextPoint();
 
         if (this.currentPoint == null || this.isFinish == true)
@@ -95,6 +97,7 @@ public class PlayerMoving : SaiBehaviour
         else this.isMoving = false;
 
         this.ctrl.Animator.SetBool("isMoving", this.isMoving);
+        this.ctrl.Animator.SetBool("isSitting", this.isSitting);
     }
 
     protected virtual void OnReborn()
@@ -103,8 +106,29 @@ public class PlayerMoving : SaiBehaviour
         this.currentPoint = null;
     }
 
-    public virtual void Toggle()
+    public virtual void ToggleSitting()
+    {
+        this.isSitting = !this.isSitting;
+    }
+
+    public virtual void StandUp()
+    {
+        this.isSitting = false;
+    }
+
+    public virtual void Sitting()
+    {
+        this.isSitting = true;
+    }
+
+    public virtual void ToggleWalking()
     {
         this.canMove = !this.canMove;
+    }
+
+    protected virtual void FixModel()
+    {
+        this.ctrl.Model.localPosition = Vector3.zero;
+        this.ctrl.Model.localRotation = Quaternion.identity;
     }
 }

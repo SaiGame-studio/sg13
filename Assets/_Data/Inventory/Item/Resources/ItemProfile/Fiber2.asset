@@ -15,11 +15,13 @@ MonoBehaviour:
   invCodeName: 2
   itemCode: 204
   itemName: Threads
+  canNegative: 0
   isStackable: 1
   isKarma: 0
   isInstanceKarma: 0
   useable: 1
   fate: 2
   hunger: 0
-  fiber: 0
+  thirst: 0
+  fiber: 1
   image: {fileID: 21300000, guid: 2ed65ccc235d32e4bb206e46f502d9a5, type: 3}
