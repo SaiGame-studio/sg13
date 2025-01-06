@@ -70,7 +70,7 @@ public class VillagerMoving : SaiBehaviour
     protected virtual void CheckMoving()
     {
         if (this.isFinish) return;
-        
+
         if (this.ctrl.Agent.velocity.magnitude > 0.1f) this.isMoving = true;
 
         float distance = Vector3.Distance(transform.position, this.target.transform.position);

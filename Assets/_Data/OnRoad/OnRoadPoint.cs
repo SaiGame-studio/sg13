@@ -1,16 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
 public abstract class OnRoadPoint : SaiBehaviour
 {
     [Header("OnRoad")]
-    [SerializeField] protected int spawnCount = 1;
     [SerializeField] protected SphereCollider _collider;
 
-    protected abstract void Spawn();
+    protected abstract List<string> GetRandomList();
 
     protected virtual void OnTriggerEnter(Collider collider)
     {
+        if (!collider.gameObject.CompareTag(TagCode.Player.ToString())) return;
         this.OnRoadSpawn(collider);
     }
 
@@ -28,12 +29,32 @@ public abstract class OnRoadPoint : SaiBehaviour
         Debug.LogWarning(transform.name + ": LoadCollider", gameObject);
     }
 
+    protected virtual OnRoadCtrl GetRandom()
+    {
+        List<string> onRoads = this.GetRandomList();
+        OnRoadCtrl onRoadPrefab = OnRoadsCtrl.Instance.Spawner.PoolPrefabs.GetRandom();
+        if (onRoadPrefab == null) return null;
+        if (onRoads.Contains(onRoadPrefab.GetName())) return onRoadPrefab;
+        return null;
+    }
+
     protected virtual void OnRoadSpawn(Collider collider)
     {
-        if (!collider.gameObject.CompareTag(TagCode.Player.ToString())) return;
-        for (int i = 0; i < this.spawnCount; i++)
+        this.Spawn();
+    }
+
+    protected virtual OnRoadCtrl Spawn()
+    {
+        OnRoadCtrl onRoadPrefab = this.GetRandom();
+        if (onRoadPrefab == null)
         {
-            Invoke(nameof(this.Spawn), i * (1 + i));
+            Invoke(nameof(this.Spawn), 0.5f);
+            return null;
         }
+
+        OnRoadCtrl onRoadObj = OnRoadsCtrl.Instance.Spawner.Spawn(onRoadPrefab, transform.position);
+        onRoadObj.SetActive(true);
+
+        return onRoadObj;
     }
 }

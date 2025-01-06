@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class UIInventory : SaiSingleton<UIInventory>
     [SerializeField] protected BtnItemInventory defaultItemInventoryUI;
     [SerializeField] protected Transform btnUse;
     [SerializeField] protected Image btnUseImage;
+    [SerializeField] protected TextMeshProUGUI txtItemName;
     [SerializeField] protected ImagesSO btnImages;
 
     [SerializeField] protected BtnItemInventory currentBtnItem;
@@ -41,6 +43,14 @@ public class UIInventory : SaiSingleton<UIInventory>
         this.LoadShowHide();
         this.LoadBtnEat();
         this.LoadBtnImages();
+        this.LoadTxtItemName();
+    }
+
+    protected virtual void LoadTxtItemName()
+    {
+        if (this.txtItemName != null) return;
+        this.txtItemName = this.showHide.Find("TxtItemName").GetComponent<TextMeshProUGUI>();
+        Debug.LogWarning(transform.name + ": LoadBtnImages", gameObject);
     }
 
     protected virtual void LoadBtnImages()
@@ -104,7 +114,7 @@ public class UIInventory : SaiSingleton<UIInventory>
         //this.UpdateFromInventory(InventoryManager.Instance.Monies());
         this.UpdateFromInventory(InventoryManager.Instance.Items());
 
-        this.ShowEatButton();
+        this.ShowUseButton();
     }
 
     protected virtual void ClearEmptyItems()
@@ -119,15 +129,28 @@ public class UIInventory : SaiSingleton<UIInventory>
         }
     }
 
-    protected virtual void ShowEatButton()
+    protected virtual void ShowUseButton()
     {
         bool eatable = true;
         ItemInventory choosedItem = InventoryManager.Instance.ChoosedItem;
         if (choosedItem.ItemID == 0) return;
-        if (!choosedItem.ItemProfile.eatable) eatable = false;
+
+        if (!choosedItem.ItemProfile.useable) eatable = false;
         if (choosedItem.ItemProfile.isKarma) this.btnUseImage.sprite = this.btnImages.images[1];
         else this.btnUseImage.sprite = this.btnImages.images[0];
+
+        this.txtItemName.text = this.GetItemInfo(choosedItem);
         this.btnUse.gameObject.SetActive(eatable);
+    }
+
+    protected virtual string GetItemInfo(ItemInventory choosedItem)
+    {
+        string fateSign = "+";
+        if (choosedItem.ItemProfile.isKarma) fateSign = "-";
+
+        string fateCount = fateSign + choosedItem.ItemProfile.fate.ToString();
+        string itemName = choosedItem.GetItemName();
+        return $"{itemName}: {fateCount}";
     }
 
     protected virtual void UpdateFromInventory(InventoryCtrl itemInvCtrl)
@@ -173,4 +196,3 @@ public class UIInventory : SaiSingleton<UIInventory>
         //if (InputHotkeys.Instance.IsToogleInventoryUI) this.Toggle();
     }
 }
-

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OnRoadCtrl : PoolObj
+public abstract class OnRoadCtrl : PoolObj
 {
     [Header("On Road")]
     [SerializeField] protected Transform canvas;
@@ -10,22 +10,20 @@ public class OnRoadCtrl : PoolObj
     [SerializeField] protected Button giveButton;
     public Button GiveButton { get { return giveButton; } }
 
-    [SerializeField] protected Image image;
-    public Image Image { get { return image; } }
+    [SerializeField] protected Image giveImage;
+    public Image GiveImage { get { return giveImage; } }
 
     [SerializeField] protected ItemCode itemGive;
     public ItemCode ItemGive { get { return itemGive; } }
 
     [SerializeField] protected UIImages itemProfileGive;
+    [SerializeField] protected InventoryManager inventoryManager;
+
+    protected abstract ItemCode RandomItem();
 
     protected virtual void OnEnable()
     {
         this.Reborn();
-    }
-
-    public override string GetName()
-    {
-        return OnRoadCode.OnRoad.ToString();
     }
 
     protected override void LoadComponents()
@@ -34,11 +32,20 @@ public class OnRoadCtrl : PoolObj
         this.LoadCanvas();
         this.LoadGiveButton();
         this.LoadImage();
+        this.LoadInventoryManager();
     }
+
+    protected virtual void LoadInventoryManager()
+    {
+        if (this.inventoryManager != null) return;
+        this.inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        Debug.LogWarning(transform.name + ": LoadInventoryManager", gameObject);
+    }
+
     protected virtual void LoadImage()
     {
-        if (this.image != null) return;
-        this.image = this.giveButton.transform.Find("Image").GetComponent<Image>();
+        if (this.giveImage != null) return;
+        this.giveImage = this.giveButton.transform.Find("Image").GetComponent<Image>();
         Debug.LogWarning(transform.name + ": LoadImage", gameObject);
     }
 
@@ -56,22 +63,27 @@ public class OnRoadCtrl : PoolObj
         Debug.Log(transform.name + ": LoadGiveButton", gameObject);
     }
 
-    public virtual void RandomItem()
+    public virtual void RandomAndShowItem()
     {
-        this.itemGive = InventoryManager.Instance.RandomItem();
-        this.itemProfileGive = InventoryManager.Instance.GetProfileByCode(this.itemGive);
-        this.image.sprite = this.itemProfileGive.image;
+        this.itemGive = this.RandomItem();
+        this.itemProfileGive = this.inventoryManager.GetProfileByCode(this.itemGive);
+        this.giveImage.sprite = this.itemProfileGive.image;
     }
 
     protected virtual void Reborn()
     {
-        this.giveButton.gameObject.SetActive(false);
+        this.RandomAndShowItem();
+        this.GiveButton.gameObject.SetActive(true);
     }
 
     public virtual void GiveItem()
     {
         InventoryManager.Instance.AddItem(this.itemGive, 1);
-        this.giveButton.gameObject.SetActive(false);
-        this.giveButton.enabled = false;
+        if (this.itemProfileGive.isInstanceKarma)
+        {
+            int deductNumber = this.itemProfileGive.fate;
+            InventoryManager.Instance.DeductFate(deductNumber);
+        }
+        this.GiveButton.gameObject.SetActive(false);
     }
 }

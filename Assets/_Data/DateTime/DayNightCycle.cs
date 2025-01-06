@@ -5,7 +5,7 @@ using UnityEngine;
 public class DayNightCycle : SaiSingleton<DayNightCycle>
 {
     [Header("Time Settings")]
-    [SerializeField] protected float dayLengthInMinutes = 1f;
+    [SerializeField] protected float dayLengthInMinutes = 7f;
     [SerializeField] protected int startHour = 7;
     [SerializeField] protected int currentHour;
     [SerializeField] protected int currentMinute;
@@ -110,7 +110,8 @@ public class DayNightCycle : SaiSingleton<DayNightCycle>
 
     public string GetFormattedTime()
     {
-        return $"{this.currentDay} {currentHour:D2}:{currentMinute:D2}";
+        string label = LocalizationManager.Instance.GetTranslation("Day");
+        return $"{label} {this.currentDay} - {currentHour:D2}:{currentMinute:D2}";
     }
 
     public string GetTimeOfDay()

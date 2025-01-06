@@ -17,5 +17,9 @@ MonoBehaviour:
   itemName: Gold
   isStackable: 1
   isKarma: 1
-  eatable: 0
+  isInstanceKarma: 1
+  useable: 0
+  fate: 700
+  hunger: 0
+  fiber: 0
   image: {fileID: 21300000, guid: 612c82cdc6eb9b5429aad07add46f78f, type: 3}

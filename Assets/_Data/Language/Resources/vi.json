@@ -1,0 +1,25 @@
+﻿{
+    "LanguageCode": "vi",
+    "Translations": [
+        {
+            "Key": "Banana",
+            "Value": "Chuối"
+        },
+        {
+            "Key": "Needles",
+            "Value": "Kim"
+        },
+        {
+            "Key": "Threads",
+            "Value": "Chỉ"
+        },
+        {
+            "Key": "Day",
+            "Value": "Ngày"
+        },
+        {
+            "Key": "Lvl",
+            "Value": "Cấp"
+        }
+    ]
+}

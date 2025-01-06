@@ -23,35 +23,22 @@ public class VillagerPoint : OnRoadPoint
         Debug.LogWarning(transform.name + ": LoadStandPoint", gameObject);
     }
 
-    protected override void Spawn()
+    protected override OnRoadCtrl Spawn()
     {
-        OnRoadCtrl onRoadPrefab = this.GetRandom();
-        if (onRoadPrefab == null)
-        {
-            Invoke(nameof(this.Spawn), 0.5f);
-            return;
-        }
-
-        OnRoadCtrl onRoadObj = OnRoadsCtrl.Instance.Spawner.Spawn(onRoadPrefab, transform.position);
+        OnRoadCtrl onRoadObj = base.Spawn();
+        if (onRoadObj == null) return null;
         VillagerCtrl villagerObj = (VillagerCtrl)onRoadObj;
         villagerObj.Moving.SetTarget(this.standPoint);
-        villagerObj.RandomItem();
-        villagerObj.SetActive(true);
+        return onRoadObj;
     }
 
-
-    protected virtual OnRoadCtrl GetRandom()
+    protected override List<string> GetRandomList()
     {
-        List<string> onRoads = new()
+        return new()
         {
             OnRoadCode.Villager.ToString(),
             OnRoadCode.Villager1.ToString(),
             OnRoadCode.Villager2.ToString(),
         };
-
-        OnRoadCtrl onRoadPrefab = OnRoadsCtrl.Instance.Spawner.PoolPrefabs.GetRandom();
-        if (onRoadPrefab == null) return null;
-        if (onRoads.Contains(onRoadPrefab.GetName())) return onRoadPrefab;
-        return null;
     }
 }

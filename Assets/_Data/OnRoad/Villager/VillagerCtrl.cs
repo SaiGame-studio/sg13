@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
 
-[RequireComponent (typeof(NavMeshAgent))]
+[RequireComponent(typeof(NavMeshAgent))]
 public abstract class VillagerCtrl : OnRoadCtrl
 {
     [Header("Villager")]
@@ -17,6 +18,23 @@ public abstract class VillagerCtrl : OnRoadCtrl
 
     [SerializeField] protected VillagerMoving moving;
     public VillagerMoving Moving { get { return moving; } }
+
+    [Header("Fate/Karma")]
+    [SerializeField] protected float karmaRate = 80;
+    [SerializeField] protected float karmaDefaultRate = 80;
+    [SerializeField]
+    protected List<ItemCode> fateItems = new()
+        {
+            ItemCode.Water,
+            ItemCode.Banana,
+        };
+
+    [SerializeField]
+    protected List<ItemCode> karmaItems = new()
+        {
+            ItemCode.Meat,
+            ItemCode.Gold,
+        };
 
     public override string GetName()
     {
@@ -65,12 +83,28 @@ public abstract class VillagerCtrl : OnRoadCtrl
         Debug.Log(transform.name + ": LoadAnimator", gameObject);
     }
 
-
     protected override void Reborn()
     {
         base.Reborn();
+        this.GiveButton.gameObject.SetActive(false);
         Vector3 position = this.model.localPosition;
         position.y = 0f;
         this.model.localPosition = position;
+    }
+
+    protected override ItemCode RandomItem()
+    {
+        List<ItemCode> items = this.GetFateOrKarmaItems();
+        return this.inventoryManager.RandomItem(items);
+    }
+
+    protected virtual List<ItemCode> GetFateOrKarmaItems()
+    {
+        int playerLevel = PlayerCtrl.Instance.Level.CurrentLevel;
+        int karmaPercent = (int)(this.karmaDefaultRate - (playerLevel * 2.5));
+        this.karmaRate = karmaPercent;
+        int rand = Random.Range(0, 100);
+        if (rand < this.karmaRate) return this.karmaItems;
+        return this.fateItems;
     }
 }

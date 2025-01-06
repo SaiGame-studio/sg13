@@ -1,15 +1,25 @@
+using System;
 using com.cyborgAssets.inspectorButtonPro;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class InventoryTester : SaiBehaviour
 {
     protected override void Start()
     {
         base.Start();
-        this.AddTestItems(ItemCode.Water, 100);
-        this.AddTestItems(ItemCode.Banana, 100);
-        this.AddTestItems(ItemCode.Gold, 100);
-        this.AddTestItems(ItemCode.Meat, 100);
+        this.AddAllItems();
+    }
+
+    protected virtual void AddAllItems()
+    {
+        foreach (ItemCode item in Enum.GetValues(typeof(ItemCode)))
+        {
+            if(item == ItemCode.NoItem) continue;
+            //if(item == ItemCode.Fate) continue;
+            if(item == ItemCode.Karma) continue;
+            this.AddTestItems(item, 900);
+        }
     }
 
     [ProButton]

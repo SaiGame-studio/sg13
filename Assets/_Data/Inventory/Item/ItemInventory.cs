@@ -46,6 +46,7 @@ public class ItemInventory
 
     public virtual bool CanDeduct(int number)
     {
+        if (this.itemProfile.canNegative) return true;
         return this.itemCount >= number;
     }
 }

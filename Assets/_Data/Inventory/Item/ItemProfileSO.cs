@@ -6,9 +6,15 @@ public class UIImages : ScriptableObject
     public InvCodeName invCodeName;
     public ItemCode itemCode;
     public string itemName;
+    public bool canNegative = false;
     public bool isStackable = false;
     public bool isKarma = false;
-    public bool eatable = false;
+    public bool isInstanceKarma = false;
+    public bool useable = false;
+    public int fate = 1;
+    public int hunger = 0;
+    public int thirst = 0;
+    public int fiber = 0;
     public Sprite image;
 
     protected virtual void Reset()

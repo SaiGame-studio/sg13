@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class InventoryManager : SaiSingleton<InventoryManager>
 {
-    [SerializeField] protected float karmaRate = 80;
-    [SerializeField] protected float karmaDefaultRate = 80;
+    [Header("Inventory")]
     [SerializeField] protected ItemInventory choosedItem;
     public ItemInventory ChoosedItem => choosedItem;
-
     [SerializeField] protected List<InventoryCtrl> inventories;
     [SerializeField] protected List<UIImages> itemProfiles;
 
@@ -101,6 +99,11 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         this.AddItem(item);
     }
 
+    public virtual void DeductItem(ItemCode itemCode, int itemCount)
+    {
+        this.RemoveItem(itemCode, itemCount);
+    }
+
     public virtual void RemoveItem(ItemCode itemCode, int itemCount)
     {
         UIImages itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
@@ -123,34 +126,8 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         Debug.Log(transform.name + ": LoadItemProfiles", gameObject);
     }
 
-    public virtual ItemCode RandomItem()
+    public virtual ItemCode RandomItem(List<ItemCode> specificItems)
     {
-        int playerLevel = PlayerCtrl.Instance.Level.CurrentLevel;
-        int karmaPercent = (int)(this.karmaDefaultRate - (playerLevel * 2.5));
-        this.karmaRate = karmaPercent;
-        int rand = Random.Range(0, 100);
-        if (rand < this.karmaRate) return this.RandomKarma();
-        return this.RandomFate();
-    }
-
-    public virtual ItemCode RandomKarma()
-    {
-        List<ItemCode> specificItems = new()
-        {
-            ItemCode.Meat,
-            ItemCode.Gold,
-        };
-        int randomIndex = Random.Range(0, specificItems.Count);
-        return specificItems[randomIndex];
-    }
-
-    public virtual ItemCode RandomFate()
-    {
-        List<ItemCode> specificItems = new()
-        {
-            ItemCode.Water,
-            ItemCode.Banana,
-        };
         int randomIndex = Random.Range(0, specificItems.Count);
         return specificItems[randomIndex];
     }
@@ -162,8 +139,32 @@ public class InventoryManager : SaiSingleton<InventoryManager>
 
     public virtual void UseChoosedItem()
     {
-        this.choosedItem.Deduct(1);
-        if (this.choosedItem.ItemProfile.isKarma) this.AddItem(ItemCode.Karma, 1);
-        else this.AddItem(ItemCode.Fate, 1);
+        if (!this.choosedItem.Deduct(1)) return;
+        int itemHunger = this.choosedItem.ItemProfile.hunger;
+        int itemThirst = this.choosedItem.ItemProfile.thirst;
+
+        if (itemHunger > 0)
+        {
+            if (!PlayerNeedsManager.Instance.CanEat(itemHunger)) return;
+            else PlayerNeedsManager.Instance.Eat(itemHunger);
+        }
+        
+        if (itemThirst > 0)
+        {
+            if (!PlayerNeedsManager.Instance.CanDrink(itemThirst)) return;
+            else PlayerNeedsManager.Instance.Drink(itemThirst);
+        }
+
+        int fate = this.choosedItem.ItemProfile.fate;
+        if (this.choosedItem.ItemProfile.isKarma) this.DeductFate(fate);
+        else this.AddItem(ItemCode.Fate, fate);
+
+
+    }
+
+    public virtual void DeductFate(int deductNumber)
+    {
+        this.DeductItem(ItemCode.Fate, deductNumber);
+        PlayerCtrl.Instance.Level.SetLevel(1);
     }
 }

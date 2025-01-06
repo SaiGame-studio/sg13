@@ -1,4 +1,3 @@
-using System;
 using Sai;
 using UnityEngine;
 
@@ -14,7 +13,8 @@ public abstract class LevelByItem : LevelDouble
 
     protected override bool DeductExp(int exp)
     {
-        return this.GetPlayerExp().Deduct(exp);
+        //return this.GetPlayerExp().Deduct(exp);
+        return true;
     }
 
     protected virtual ItemInventory GetPlayerExp()

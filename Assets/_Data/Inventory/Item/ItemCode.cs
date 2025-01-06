@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public enum ItemCode
 {
     NoItem = 0,
@@ -13,4 +9,15 @@ public enum ItemCode
     Fate = 200,
     Water = 201,
     Banana = 202,
+    Fiber1 = 203,
+    Fiber2 = 204,
+    Fiber3 = 205,
+    Fiber4 = 206,
+    Fiber5 = 207,
+    Fiber6 = 208,
+    Fiber7 = 209,
+    
+    Skin1 = 211,
+    Skin2 = 212,
+    Skin3 = 213,
 }
