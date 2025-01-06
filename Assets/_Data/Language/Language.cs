@@ -2,13 +2,18 @@ using System.Collections.Generic;
 using com.cyborgAssets.inspectorButtonPro;
 using UnityEngine;
 
-public class LocalizationManager : SaiSingleton<LocalizationManager>
+public class Language : SaiSingleton<Language>
 {
     public List<LanguageData> SupportedLanguages = new List<LanguageData>();
     public LanguageCode FallbackLanguage = LanguageCode.en;
     public LanguageCode CurrentLanguage = LanguageCode.vi;
 
     private Dictionary<string, string> translationCache = new Dictionary<string, string>();
+
+    public static string T(string text)
+    {
+        return Language.Instance.Trans(text);
+    }
 
     protected override void Start()
     {
@@ -59,7 +64,7 @@ public class LocalizationManager : SaiSingleton<LocalizationManager>
         }
     }
 
-    public string GetTranslation(string key)
+    public string Trans(string key)
     {
         if (translationCache.TryGetValue(key, out string value))
         {

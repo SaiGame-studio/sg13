@@ -16,7 +16,7 @@ public class PlayerLevel : LevelByItem
         float nextExp = Mathf.Ceil(this.nextLevelExp);
         string nextExpString = NumberFormatter.FormatNumber(nextExp);
 
-        string label = LocalizationManager.Instance.GetTranslation("Lvl");
+        string label = Language.T("Lvl");
         return $"{label} {this.currentLevel}: {expString}/{nextExpString}";
     }
 }

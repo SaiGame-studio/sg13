@@ -1,15 +1,17 @@
 using UnityEngine;
 
-public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>  
+public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
 {
     [Header("Player Needs")]
     [SerializeField] protected float maxNeeds = 100f; // Current hunger level
-    [SerializeField] protected float hunger = 100f; // Current hunger level
-    [SerializeField] protected float thirst = 100f; // Current thirst level
+    [SerializeField] protected float hunger = 70f; // Current hunger level
+    [SerializeField] protected float thirst = 70f; // Current thirst level
+    [SerializeField] protected float fiber = 50f; // Current thirst level
 
     [Header("Decay Rates")]
     [SerializeField] protected float hungerDecayRate = 0.7f; // How fast hunger decreases (per second)
     [SerializeField] protected float thirstDecayRate = 1f; // How fast thirst decreases (per second)
+    [SerializeField] protected float fiberDecayRate = 0.5f; // How fast thirst decreases (per second)
 
     [Header("Critical Levels")]
     [SerializeField] protected float criticalHunger = 27f; // Threshold for critical hunger
@@ -24,26 +26,24 @@ public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
         // Decrease hunger and thirst over time
         hunger -= hungerDecayRate * Time.deltaTime;
         thirst -= thirstDecayRate * Time.deltaTime;
+        fiber -= fiberDecayRate * Time.deltaTime;
 
         // Clamp hunger and thirst to prevent negative values
         hunger = Mathf.Clamp(hunger, 0f, 100f);
         thirst = Mathf.Clamp(thirst, 0f, 100f);
+        fiber = Mathf.Clamp(fiber, 0f, 100f);
 
         // Check for critical levels
         CheckCriticalNeeds();
     }
 
-    /// <summary>
-    /// Feed the player to restore hunger.
-    /// </summary>
-    /// <param name="amount">Amount of hunger to restore.</param>
     public void Eat(float amount)
     {
         if (!isAlive) return;
 
         hunger += amount;
         hunger = Mathf.Clamp(hunger, 0f, 100f);
-        Debug.Log($"Player ate food. Hunger restored to {hunger}.");
+        //Debug.Log($"Player ate food. Hunger restored to {hunger}.");
     }
 
     public bool CanEat(float amount)
@@ -53,17 +53,29 @@ public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
         return newHunger <= this.maxNeeds;
     }
 
-    /// <summary>
-    /// Give the player water to restore thirst.
-    /// </summary>
-    /// <param name="amount">Amount of thirst to restore.</param>
+    public void Sew(float amount)
+    {
+        if (!isAlive) return;
+
+        fiber += amount;
+        fiber = Mathf.Clamp(fiber, 0f, 100f);
+        //Debug.Log($"Player sew fiber. Fiber restored to {hunger}.");
+    }
+
+    public bool CanSew(float amount)
+    {
+        if (!isAlive) return false;
+        float newFiber = this.fiber + amount;
+        return newFiber <= this.maxNeeds;
+    }
+
     public void Drink(float amount)
     {
         if (!isAlive) return;
 
         thirst += amount;
         thirst = Mathf.Clamp(thirst, 0f, 100f);
-        Debug.Log($"Player drank water. Thirst restored to {thirst}.");
+        //Debug.Log($"Player drank water. Thirst restored to {thirst}.");
     }
 
     public bool CanDrink(float amount)
@@ -73,9 +85,6 @@ public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
         return newThirst <= this.maxNeeds;
     }
 
-    /// <summary>
-    /// Check if hunger or thirst levels are critical and trigger effects if necessary.
-    /// </summary>
     private void CheckCriticalNeeds()
     {
         if (hunger <= criticalHunger)
@@ -97,27 +106,18 @@ public class PlayerNeedsManager : SaiSingleton<PlayerNeedsManager>
         }
     }
 
-    /// <summary>
-    /// Handles the effects of critical hunger.
-    /// </summary>
     private void HandleCriticalHunger()
     {
         // Implement effects like slower movement, health decrease, etc.
         Debug.Log("Player is very hungry. Consider eating soon.");
     }
 
-    /// <summary>
-    /// Handles the effects of critical thirst.
-    /// </summary>
     private void HandleCriticalThirst()
     {
         // Implement effects like slower movement, blurred vision, etc.
         Debug.Log("Player is very thirsty. Consider drinking water soon.");
     }
 
-    /// <summary>
-    /// Handles the player's death when hunger and thirst reach 0.
-    /// </summary>
     private void PlayerDeath()
     {
         isAlive = false;

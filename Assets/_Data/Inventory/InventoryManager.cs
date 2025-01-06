@@ -140,26 +140,26 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     public virtual void UseChoosedItem()
     {
         if (!this.choosedItem.Deduct(1)) return;
-        int itemHunger = this.choosedItem.ItemProfile.hunger;
-        int itemThirst = this.choosedItem.ItemProfile.thirst;
-
-        if (itemHunger > 0)
-        {
-            if (!PlayerNeedsManager.Instance.CanEat(itemHunger)) return;
-            else PlayerNeedsManager.Instance.Eat(itemHunger);
-        }
-        
-        if (itemThirst > 0)
-        {
-            if (!PlayerNeedsManager.Instance.CanDrink(itemThirst)) return;
-            else PlayerNeedsManager.Instance.Drink(itemThirst);
-        }
+        if (!this.CheckPlayerNeed()) return;
 
         int fate = this.choosedItem.ItemProfile.fate;
         if (this.choosedItem.ItemProfile.isKarma) this.DeductFate(fate);
         else this.AddItem(ItemCode.Fate, fate);
+    }
 
+    protected virtual bool CheckPlayerNeed()
+    {
+        int itemHunger = this.choosedItem.ItemProfile.hunger;
+        int itemThirst = this.choosedItem.ItemProfile.thirst;
+        int itemfiber = this.choosedItem.ItemProfile.fiber;
+        if (!PlayerNeedsManager.Instance.CanEat(itemHunger)) return false;
+        if (!PlayerNeedsManager.Instance.CanDrink(itemThirst)) return false;
+        if (!PlayerNeedsManager.Instance.CanSew(itemfiber)) return false;
 
+        if (itemHunger > 0) PlayerNeedsManager.Instance.Eat(itemHunger);
+        if (itemThirst > 0) PlayerNeedsManager.Instance.Drink(itemThirst);
+        if (itemfiber > 0) PlayerNeedsManager.Instance.Sew(itemfiber);
+        return true;
     }
 
     public virtual void DeductFate(int deductNumber)

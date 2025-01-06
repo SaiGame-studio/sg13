@@ -149,7 +149,7 @@ public class UIInventory : SaiSingleton<UIInventory>
         if (choosedItem.ItemProfile.isKarma) fateSign = "-";
 
         string fateCount = fateSign + choosedItem.ItemProfile.fate.ToString();
-        string itemName = choosedItem.GetItemName();
+        string itemName = Language.T(choosedItem.GetItemName());
         return $"{itemName}: {fateCount}";
     }
 
