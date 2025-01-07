@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemProfile", menuName = "ScriptableObjects/ItemProfile", order = 1)]
-public class UIImages : ScriptableObject
+public class ItemProfileSO : ScriptableObject
 {
     public InvCodeName invCodeName;
     public ItemCode itemCode;
@@ -11,10 +11,11 @@ public class UIImages : ScriptableObject
     public bool isKarma = false;
     public bool isInstanceKarma = false;
     public bool useable = false;
+    public bool isFood = false;
     public int fate = 1;
-    public int hunger = 0;
-    public int thirst = 0;
-    public int fiber = 0;
+    public float hunger = 0;
+    public float thirst = 0;
+    public float fiber = 0;
     public Sprite image;
 
     protected virtual void Reset()

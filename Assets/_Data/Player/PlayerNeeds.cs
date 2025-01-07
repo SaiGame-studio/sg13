@@ -4,27 +4,36 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 {
     [SerializeField] protected PlayerCtrl playerCtrl;
 
-    [Header("Player Needs")]
-    [SerializeField] protected bool noDecay = false; // Current hunger level
+    [Header("Status")]
+    [SerializeField] protected bool noDecay = false;
+    [SerializeField] protected bool isSleeping = false;
+    [SerializeField] protected bool isEathing = false;
+    public bool IsEathing => isEathing;
+
+    [Header("Needs")]
     [SerializeField] protected float maxNeeds = 100f; // Current hunger level
-    [SerializeField] protected float hunger = 70f; // Current hunger level
-    [SerializeField] protected float thirst = 70f; // Current thirst level
-    [SerializeField] protected float fiber = 50f; // Current thirst level
+    [SerializeField] protected float hunger = 100f; // Current hunger level
+    [SerializeField] protected float thirst = 100f; // Current thirst level
+    [SerializeField] protected float fiber = 70f; // Current thirst level
+    [SerializeField] protected int eatPerDay = 1;
+    [SerializeField] protected int eatPerDayMax = 1;
 
     [Header("Decay Rates")]
-    [SerializeField] protected float hungerDecayRate = 0.7f; // How fast hunger decreases (per second)
-    [SerializeField] protected float thirstDecayRate = 1f; // How fast thirst decreases (per second)
-    [SerializeField] protected float fiberDecayRate = 0.5f; // How fast thirst decreases (per second)
+    [SerializeField] protected float hungerDecayRate = 0.2f; // How fast hunger decreases (per second)
+    [SerializeField] protected float thirstDecayRate = 0.3f; // How fast thirst decreases (per second)
+    [SerializeField] protected float fiberDecayRate = 0.1f; // How fast thirst decreases (per second)
+    [SerializeField] protected float restingDecayRate = 0.05f;
 
     [Header("Critical Levels")]
     [SerializeField] protected float criticalHunger = 27f; // Threshold for critical hunger
     [SerializeField] protected float criticalThirst = 27f; // Threshold for critical thirst
-
     [SerializeField] protected bool isAlive = true; // Player's alive state
+
     public bool IsAlive { get { return isAlive; } }
 
     private void Update()
     {
+        this.UpdateStatus();
         this.Needing();
     }
 
@@ -36,8 +45,8 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
     protected virtual void LoadPlayerCtrl()
     {
-        if(this.playerCtrl != null) return;
-        this.playerCtrl = GetComponentInParent<PlayerCtrl>(); 
+        if (this.playerCtrl != null) return;
+        this.playerCtrl = GetComponentInParent<PlayerCtrl>();
         Debug.LogWarning(transform.name + ": LoadPlayerCtrl", gameObject);
     }
 
@@ -47,7 +56,7 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
         if (!isAlive) return;
 
-        if(!this.noDecay) this.DecayNeeding();
+        if (!this.noDecay) this.DecayNeeding();
 
         this.hunger = Mathf.Clamp(this.hunger, 0f, 100f);
         this.thirst = Mathf.Clamp(this.thirst, 0f, 100f);
@@ -58,14 +67,22 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
     protected virtual void DecayNeeding()
     {
+
         float hungerRate = this.hungerDecayRate;
         if (this.thirst <= 0) hungerRate *= 4;
         if (this.fiber <= 0) hungerRate *= 2;
-        this.hunger -= hungerRate * Time.deltaTime;
 
         float thirstRate = this.thirstDecayRate;
         if (this.hunger <= 0) thirstRate *= 3;
         if (this.fiber <= 0) thirstRate *= 2;
+
+        if (this.isSleeping)
+        {
+            hungerRate = this.restingDecayRate;
+            thirstRate = this.restingDecayRate;
+        }
+
+        this.hunger -= hungerRate * Time.deltaTime;
         this.thirst -= thirstRate * Time.deltaTime;
 
         float fiberRate = this.fiberDecayRate;
@@ -74,27 +91,24 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
     public void Eat(float amount)
     {
-        if (!isAlive) return;
-
-        hunger += amount;
-        hunger = Mathf.Clamp(hunger, 0f, 100f);
-        //Debug.Log($"Player ate food. Hunger restored to {hunger}.");
+        if (!this.isAlive) return;
+        this.hunger += amount;
+        this.hunger = Mathf.Clamp(this.hunger, 0f, 100f);
+        //this.SetEating(true);
     }
 
     public bool CanEat(float amount)
     {
-        if (!isAlive) return false;
+        if (!this.isAlive) return false;
         float newHunger = this.hunger + amount;
         return newHunger <= this.maxNeeds;
     }
 
     public void Sew(float amount)
     {
-        if (!isAlive) return;
-
-        fiber += amount;
-        fiber = Mathf.Clamp(fiber, 0f, 100f);
-        //Debug.Log($"Player sew fiber. Fiber restored to {hunger}.");
+        if (!this.isAlive) return;
+        this.fiber += amount;
+        this.fiber = Mathf.Clamp(this.fiber, 0f, 100f);
     }
 
     public bool CanSew(float amount)
@@ -107,10 +121,8 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
     public void Drink(float amount)
     {
         if (!isAlive) return;
-
         thirst += amount;
         thirst = Mathf.Clamp(thirst, 0f, 100f);
-        //Debug.Log($"Player drank water. Thirst restored to {thirst}.");
     }
 
     public bool CanDrink(float amount)
@@ -122,42 +134,18 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
     protected virtual void CheckCriticalNeeds()
     {
-        if (hunger <= criticalHunger)
-        {
-            //Debug.LogWarning("Hunger level is critical!");
-            HandleCriticalHunger();
-        }
-
-        if (thirst <= criticalThirst)
-        {
-            //Debug.LogWarning("Thirst level is critical!");
-            HandleCriticalThirst();
-        }
-
-        // If both hunger and thirst reach 0, the player dies
-        if (hunger <= 0f && thirst <= 0f)
-        {
-            PlayerDeath();
-        }
+        if (hunger <= criticalHunger) HandleCriticalHunger();
+        if (thirst <= criticalThirst) HandleCriticalThirst();
+        if (hunger <= 0f && thirst <= 0f) PlayerDeath();
     }
 
-    protected virtual void HandleCriticalHunger()
-    {
-        // Implement effects like slower movement, health decrease, etc.
-        //Debug.Log("Player is very hungry. Consider eating soon.");
-    }
+    protected virtual void HandleCriticalHunger() { }
 
-    protected virtual void HandleCriticalThirst()
-    {
-        // Implement effects like slower movement, blurred vision, etc.
-        //Debug.Log("Player is very thirsty. Consider drinking water soon.");
-    }
+    protected virtual void HandleCriticalThirst() { }
 
     protected virtual void PlayerDeath()
     {
         this.isAlive = false;
-        //Debug.LogError("Player has died from starvation and dehydration!");
-        // Trigger death logic (e.g., respawn, game over screen, etc.)
     }
 
     public virtual float HungerValue()
@@ -173,5 +161,42 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
     public virtual float FiberValue()
     {
         return this.fiber / this.maxNeeds;
+    }
+
+    public virtual void ResetEatPerDay()
+    {
+        this.eatPerDay = this.eatPerDayMax;
+    }
+
+    protected virtual void UpdateStatus()
+    {
+        this.isSleeping = DayNightCycle.Instance.IsNight() && PlayerCtrl.Instance.Moving.IsSitting;
+        if (DayNightCycle.Instance.IsNight()) this.eatPerDay = this.eatPerDayMax;
+    }
+
+    public virtual void SetEating(bool status)
+    {
+        this.isEathing = status;
+    }
+
+    public virtual void CheckEating()
+    {
+        if (this.isEathing) this.eatPerDay--;
+        this.SetEating(false);
+    }
+
+    public virtual bool IsFinishEat()
+    {
+        return this.eatPerDay <= 0;
+    }
+
+    public virtual string FormattedEatCount()
+    {
+        return $"{eatPerDay}/{eatPerDayMax}";
+    }
+
+    public virtual bool IsSleeping()
+    {
+        return this.isSleeping;
     }
 }

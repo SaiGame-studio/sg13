@@ -23,6 +23,12 @@ public class VillagerPoint : OnRoadPoint
         Debug.LogWarning(transform.name + ": LoadStandPoint", gameObject);
     }
 
+    protected override void OnRoadSpawn(Collider collider)
+    {
+        if (DayNightCycle.Instance.Is(TimeOfDay.Night)) return;
+        base.OnRoadSpawn(collider);
+    }
+
     protected override OnRoadCtrl Spawn()
     {
         OnRoadCtrl onRoadObj = base.Spawn();

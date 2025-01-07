@@ -12,10 +12,15 @@ public class PlayerMoving : SaiBehaviour
     [SerializeField] protected float pointDistance = Mathf.Infinity;
     [SerializeField] protected float stopDistance = 1f;
     [SerializeField] protected bool canMove = true;
-    [SerializeField] protected bool isMoving = false;
-    [SerializeField] protected bool isSitting = false;
     [SerializeField] protected bool isFinish = false;
     [SerializeField] protected bool isLoopPath = true;
+
+    [SerializeField] protected bool isMoving = false;
+    public bool IsMoving { get { return isMoving; } }
+
+    [SerializeField] protected bool isSitting = false;
+    public bool IsSitting { get { return isSitting; } }
+
 
     protected virtual void OnEnable()
     {
@@ -29,7 +34,7 @@ public class PlayerMoving : SaiBehaviour
 
     void FixedUpdate()
     {
-        this.Moving();
+        this.UpdateMoving();
         this.CheckMoving();
     }
 
@@ -46,7 +51,7 @@ public class PlayerMoving : SaiBehaviour
         Debug.LogWarning(transform.name + ": LoadCtrl", gameObject);
     }
 
-    protected virtual void Moving()
+    protected virtual void UpdateMoving()
     {
         bool isAlive = this.ctrl.Needs.IsAlive;
         if (!this.canMove || this.isSitting || !isAlive)
@@ -114,11 +119,17 @@ public class PlayerMoving : SaiBehaviour
     public virtual void StandUp()
     {
         this.isSitting = false;
+        PlayerNeeds.Instance.CheckEating();
     }
 
-    public virtual void Sitting()
+    public virtual void StartSitting()
     {
         this.isSitting = true;
+    }
+
+    public virtual void StartMoving()
+    {
+        this.canMove = true;
     }
 
     public virtual void ToggleWalking()

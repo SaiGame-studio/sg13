@@ -19,7 +19,10 @@ public abstract class LevelByItem : LevelDouble
 
     protected virtual ItemInventory GetPlayerExp()
     {
-        if(this.playerExp == null || this.playerExp.ItemID == 0) this.playerExp = InventoryManager.Instance.Monies().FindItem(ItemCode.Fate);
+        if (this.playerExp == null || this.playerExp.ItemID == 0 || this.playerExp.itemCount == 0)
+        {
+            this.playerExp = InventoryManager.Instance.Monies().FindItem(ItemCode.Fate);
+        }
         return this.playerExp;
     }
 }

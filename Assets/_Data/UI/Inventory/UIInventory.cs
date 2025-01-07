@@ -31,11 +31,6 @@ public class UIInventory : SaiSingleton<UIInventory>
         this.ItemsUpdating();
     }
 
-    protected virtual void LateUpdate()
-    {
-        this.HotkeyToogleInventory();
-    }
-
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -65,6 +60,7 @@ public class UIInventory : SaiSingleton<UIInventory>
         if (this.btnUse != null) return;
         this.btnUse = this.showHide.Find("BtnUseItem");
         this.btnUseImage = this.btnUse.GetComponent<Image>();
+        this.btnUse.gameObject.SetActive(false);
         Debug.Log(transform.name + ": LoadBtnEat", gameObject);
     }
 
@@ -86,7 +82,8 @@ public class UIInventory : SaiSingleton<UIInventory>
     {
         this.isShow = true;
         this.showHide.gameObject.SetActive(this.isShow);
-        PlayerCtrl.Instance.Moving.Sitting();
+        PlayerCtrl.Instance.Moving.StartSitting();
+        PlayerCtrl.Instance.Moving.StartMoving();
     }
 
     public virtual void Hide()
@@ -141,6 +138,14 @@ public class UIInventory : SaiSingleton<UIInventory>
         if (choosedItem.ItemProfile.isKarma) this.btnUseImage.sprite = this.btnImages.images[1];
         else this.btnUseImage.sprite = this.btnImages.images[0];
 
+        if (choosedItem.ItemProfile.isFood)
+        {
+            if (!DayNightCycle.Instance.IsEatTime) eatable = false;
+            if (PlayerNeeds.Instance.IsFinishEat()) eatable = false;
+        }
+
+        if(PlayerNeeds.Instance.IsSleeping()) eatable = false;
+
         this.txtItemName.text = this.GetItemInfo(choosedItem);
         this.btnUse.gameObject.SetActive(eatable);
     }
@@ -191,10 +196,5 @@ public class UIInventory : SaiSingleton<UIInventory>
     {
         this.currentBtnItem = currentBtnItem;
         InventoryManager.Instance.SetChoosedItem(currentBtnItem.ItemInventory);
-    }
-
-    protected virtual void HotkeyToogleInventory()
-    {
-        //if (InputHotkeys.Instance.IsToogleInventoryUI) this.Toggle();
     }
 }

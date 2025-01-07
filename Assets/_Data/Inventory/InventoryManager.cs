@@ -8,7 +8,7 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     [SerializeField] protected ItemInventory choosedItem;
     public ItemInventory ChoosedItem => choosedItem;
     [SerializeField] protected List<InventoryCtrl> inventories;
-    [SerializeField] protected List<UIImages> itemProfiles;
+    [SerializeField] protected List<ItemProfileSO> itemProfiles;
 
     protected override void LoadComponents()
     {
@@ -65,9 +65,9 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         return null;
     }
 
-    public virtual UIImages GetProfileByCode(ItemCode itemCodeName)
+    public virtual ItemProfileSO GetProfileByCode(ItemCode itemCodeName)
     {
-        foreach (UIImages itemProfile in this.itemProfiles)
+        foreach (ItemProfileSO itemProfile in this.itemProfiles)
         {
             if (itemProfile.itemCode == itemCodeName) return itemProfile;
         }
@@ -94,7 +94,7 @@ public class InventoryManager : SaiSingleton<InventoryManager>
 
     public virtual void AddItem(ItemCode itemCode, int itemCount)
     {
-        UIImages itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
+        ItemProfileSO itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
         ItemInventory item = new(itemProfile, itemCount);
         this.AddItem(item);
     }
@@ -106,7 +106,7 @@ public class InventoryManager : SaiSingleton<InventoryManager>
 
     public virtual void RemoveItem(ItemCode itemCode, int itemCount)
     {
-        UIImages itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
+        ItemProfileSO itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
         ItemInventory item = new(itemProfile, itemCount);
         this.RemoveItem(item);
     }
@@ -121,8 +121,8 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     protected virtual void LoadItemProfiles()
     {
         if (this.itemProfiles.Count > 0) return;
-        UIImages[] itemProfileSOs = Resources.LoadAll<UIImages>("/");
-        this.itemProfiles = new List<UIImages>(itemProfileSOs);
+        ItemProfileSO[] itemProfileSOs = Resources.LoadAll<ItemProfileSO>("/");
+        this.itemProfiles = new List<ItemProfileSO>(itemProfileSOs);
         Debug.Log(transform.name + ": LoadItemProfiles", gameObject);
     }
 
@@ -148,14 +148,16 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         if (this.choosedItem.ItemProfile.isKarma) this.DeductFate(fate);
         else this.AddFate(fate);
 
+        if (this.choosedItem.ItemProfile.isFood) PlayerNeeds.Instance.SetEating(true);
+
         this.choosedItem.Deduct(useCount);
     }
 
     protected virtual bool CheckPlayerNeed()
     {
-        int itemHunger = this.choosedItem.ItemProfile.hunger;
-        int itemThirst = this.choosedItem.ItemProfile.thirst;
-        int itemfiber = this.choosedItem.ItemProfile.fiber;
+        float itemHunger = this.choosedItem.ItemProfile.hunger;
+        float itemThirst = this.choosedItem.ItemProfile.thirst;
+        float itemfiber = this.choosedItem.ItemProfile.fiber;
         if (!PlayerNeeds.Instance.CanEat(itemHunger)) return false;
         if (!PlayerNeeds.Instance.CanDrink(itemThirst)) return false;
         if (!PlayerNeeds.Instance.CanSew(itemfiber)) return false;
@@ -169,7 +171,7 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     public virtual void DeductFate(int deductNumber)
     {
         this.DeductItem(ItemCode.Fate, deductNumber);
-        PlayerCtrl.Instance.Level.SetLevel(1);
+        PlayerCtrl.Instance.Level.SetLevel(0);
     }
 
     public virtual void AddFate(int deductNumber)

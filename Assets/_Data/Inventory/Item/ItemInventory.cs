@@ -7,14 +7,14 @@ public class ItemInventory
     [SerializeField] protected int itemId;
     public int ItemID => itemId;
 
-    protected UIImages itemProfile;
-    public UIImages ItemProfile => itemProfile;
+    protected ItemProfileSO itemProfile;
+    public ItemProfileSO ItemProfile => itemProfile;
     
     [SerializeField] protected string itemName;
     
     public int itemCount;
 
-    public ItemInventory(UIImages itemProfile, int itemCount)
+    public ItemInventory(ItemProfileSO itemProfile, int itemCount)
     {
         this.itemProfile = itemProfile;
         this.itemCount = itemCount;

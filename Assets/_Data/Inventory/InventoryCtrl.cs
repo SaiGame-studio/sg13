@@ -43,6 +43,11 @@ public abstract class InventoryCtrl : SaiBehaviour
         return null;
     }
 
+    public virtual ItemInventory GetItem(ItemCode itemCode)
+    {
+        return this.FindItem(itemCode);
+    }
+
     public virtual ItemInventory FindItemNotEmpty(ItemCode itemCode)
     {
         foreach (ItemInventory itemInventory in this.items)

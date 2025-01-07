@@ -16,7 +16,7 @@ public abstract class OnRoadCtrl : PoolObj
     [SerializeField] protected ItemCode itemGive;
     public ItemCode ItemGive { get { return itemGive; } }
 
-    [SerializeField] protected UIImages itemProfileGive;
+    [SerializeField] protected ItemProfileSO itemProfileGive;
     [SerializeField] protected InventoryManager inventoryManager;
 
     protected abstract ItemCode RandomItem();

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class LevelAbstract : SaiBehaviour
 {
-    [Range(1,13)]
+    [Range(0,13)]
     [SerializeField] protected int currentLevel = 1;
     public int CurrentLevel => currentLevel;
 
