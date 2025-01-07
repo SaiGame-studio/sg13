@@ -24,6 +24,7 @@ public abstract class InventoryCtrl : SaiBehaviour
 
     public virtual bool RemoveItem(ItemInventory item)
     {
+        Debug.Log("RemoveItem");
         ItemInventory itemExist = this.FindItemNotEmpty(item.ItemProfile.itemCode);
         if (itemExist == null) return false;
         if (!itemExist.CanDeduct(item.itemCount)) return false;
@@ -42,12 +43,17 @@ public abstract class InventoryCtrl : SaiBehaviour
         return null;
     }
 
+    public virtual ItemInventory GetItem(ItemCode itemCode)
+    {
+        return this.FindItem(itemCode);
+    }
+
     public virtual ItemInventory FindItemNotEmpty(ItemCode itemCode)
     {
         foreach (ItemInventory itemInventory in this.items)
         {
             if (itemInventory.ItemProfile.itemCode != itemCode) continue;
-            if (itemInventory.itemCount > 0) return itemInventory;
+            if (itemInventory.itemCount > 0 || itemInventory.ItemProfile.canNegative) return itemInventory;
         }
 
         return null;

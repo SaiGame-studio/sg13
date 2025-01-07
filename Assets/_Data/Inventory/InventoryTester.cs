@@ -1,18 +1,23 @@
+using System;
 using com.cyborgAssets.inspectorButtonPro;
-using UnityEngine;
 
 public class InventoryTester : SaiBehaviour
 {
     protected override void Start()
     {
         base.Start();
-        this.AddTestItems(ItemCode.Fate, 1);
-        this.AddTestItems(ItemCode.Karma, 1);
+        //this.AddAllItems();
+    }
 
-        this.AddTestItems(ItemCode.Water, 1);
-        this.AddTestItems(ItemCode.Banana, 1);
-        this.AddTestItems(ItemCode.Gold, 1);
-        this.AddTestItems(ItemCode.Meat, 1);
+    protected virtual void AddAllItems()
+    {
+        foreach (ItemCode item in Enum.GetValues(typeof(ItemCode)))
+        {
+            if(item == ItemCode.NoItem) continue;
+            if(item == ItemCode.Fate) continue;
+            if(item == ItemCode.Karma) continue;
+            this.AddTestItems(item, 900);
+        }
     }
 
     [ProButton]
@@ -31,5 +36,6 @@ public class InventoryTester : SaiBehaviour
         {
             InventoryManager.Instance.RemoveItem(itemCode, 1);
         }
+        PlayerCtrl.Instance.Level.SetLevel(0);
     }
 }

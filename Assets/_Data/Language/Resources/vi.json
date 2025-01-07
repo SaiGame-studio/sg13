@@ -1,0 +1,69 @@
+﻿{
+    "LanguageCode": "vi",
+    "Translations": [
+        {
+            "Key": "Banana",
+            "Value": "Chuối"
+        },
+        {
+            "Key": "Needles",
+            "Value": "Kim"
+        },
+        {
+            "Key": "Threads",
+            "Value": "Chỉ"
+        },
+        {
+            "Key": "Day",
+            "Value": "Ngày"
+        },
+        {
+            "Key": "Lvl",
+            "Value": "Cấp"
+        },
+        {
+            "Key": "Gold",
+            "Value": "Vàng"
+        },
+        {
+            "Key": "Torn Cloth",
+            "Value": "Vải rách"
+        },
+        {
+            "Key": "Cloth",
+            "Value": "Vải"
+        },
+        {
+            "Key": "Cloth Roll",
+            "Value": "Vải cuộn"
+        },
+        {
+            "Key": "Silk Cloth",
+            "Value": "Vải lụa"
+        },
+        {
+            "Key": "Meat",
+            "Value": "Thịt"
+        },
+        {
+            "Key": "Tiger Skin",
+            "Value": "Da hổ"
+        },
+        {
+            "Key": "Deer Skin",
+            "Value": "Da hươu"
+        },
+        {
+            "Key": "Feathers",
+            "Value": "Lông vũ"
+        },
+        {
+            "Key": "Water",
+            "Value": "Nước"
+        },
+        {
+            "Key": "Red Cloth",
+            "Value": "Vải đỏ"
+        }
+    ]
+}

@@ -4,6 +4,6 @@ public class BtnWalk : ButttonAbstract
 {
     public override void OnClick()
     {
-        PlayerCtrl.Instance.Moving.Toggle();
+        PlayerCtrl.Instance.Moving.ToggleWalking();
     }
 }

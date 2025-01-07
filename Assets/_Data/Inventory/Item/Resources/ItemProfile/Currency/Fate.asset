@@ -15,5 +15,12 @@ MonoBehaviour:
   invCodeName: 1
   itemCode: 200
   itemName: Fate
+  canNegative: 1
   isStackable: 1
+  isKarma: 0
+  isInstanceKarma: 0
+  useable: 0
+  fate: 1
+  hunger: 0
+  fiber: 0
   image: {fileID: 21300000, guid: 87bae898677a2bd43a67845fed348a00, type: 3}

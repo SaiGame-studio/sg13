@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class ItemInventory
 {
-    protected int itemId;
+    [SerializeField] protected int itemId;
     public int ItemID => itemId;
 
     protected ItemProfileSO itemProfile;
@@ -46,6 +46,7 @@ public class ItemInventory
 
     public virtual bool CanDeduct(int number)
     {
+        if (this.itemProfile.canNegative) return true;
         return this.itemCount >= number;
     }
 }

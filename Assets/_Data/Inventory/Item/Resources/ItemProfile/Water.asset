@@ -15,7 +15,14 @@ MonoBehaviour:
   invCodeName: 2
   itemCode: 201
   itemName: Water
+  canNegative: 0
   isStackable: 1
   isKarma: 0
-  eatable: 1
+  isInstanceKarma: 0
+  useable: 1
+  isFood: 0
+  fate: 2
+  hunger: 0.7
+  thirst: 7
+  fiber: 0
   image: {fileID: 21300000, guid: 119b3b8626a8bbf4aac4911aa0ff7d1e, type: 3}

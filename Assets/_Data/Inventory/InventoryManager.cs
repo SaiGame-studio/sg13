@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class InventoryManager : SaiSingleton<InventoryManager>
 {
-
+    [Header("Inventory")]
     [SerializeField] protected ItemInventory choosedItem;
     public ItemInventory ChoosedItem => choosedItem;
-
     [SerializeField] protected List<InventoryCtrl> inventories;
     [SerializeField] protected List<ItemProfileSO> itemProfiles;
 
@@ -100,6 +99,11 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         this.AddItem(item);
     }
 
+    public virtual void DeductItem(ItemCode itemCode, int itemCount)
+    {
+        this.RemoveItem(itemCode, itemCount);
+    }
+
     public virtual void RemoveItem(ItemCode itemCode, int itemCount)
     {
         ItemProfileSO itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
@@ -122,32 +126,8 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         Debug.Log(transform.name + ": LoadItemProfiles", gameObject);
     }
 
-    public virtual ItemCode RandomItem()
+    public virtual ItemCode RandomItem(List<ItemCode> specificItems)
     {
-        int karmaPercent = 70;
-        int rand = Random.Range(0, 100);
-        if (rand < karmaPercent) return this.RandomKarma();
-        return this.RandomFate();
-    }
-
-    public virtual ItemCode RandomKarma()
-    {
-        List<ItemCode> specificItems = new()
-        {
-            ItemCode.Meat,
-            ItemCode.Gold,
-        };
-        int randomIndex = Random.Range(0, specificItems.Count);
-        return specificItems[randomIndex];
-    }
-
-    public virtual ItemCode RandomFate()
-    {
-        List<ItemCode> specificItems = new()
-        {
-            ItemCode.Water,
-            ItemCode.Banana,
-        };
         int randomIndex = Random.Range(0, specificItems.Count);
         return specificItems[randomIndex];
     }
@@ -159,8 +139,43 @@ public class InventoryManager : SaiSingleton<InventoryManager>
 
     public virtual void UseChoosedItem()
     {
-        this.choosedItem.Deduct(1);
-        if (this.choosedItem.ItemProfile.isKarma) this.AddItem(ItemCode.Karma, 1);
-        else this.AddItem(ItemCode.Fate, 1);
+        int useCount = 1;
+        if (this.choosedItem.ItemID == 0) return;
+        if (!this.choosedItem.CanDeduct(useCount)) return;
+        if (!this.CheckPlayerNeed()) return;
+
+        int fate = this.choosedItem.ItemProfile.fate;
+        if (this.choosedItem.ItemProfile.isKarma) this.DeductFate(fate);
+        else this.AddFate(fate);
+
+        if (this.choosedItem.ItemProfile.isFood) PlayerNeeds.Instance.SetEating(true);
+
+        this.choosedItem.Deduct(useCount);
+    }
+
+    protected virtual bool CheckPlayerNeed()
+    {
+        float itemHunger = this.choosedItem.ItemProfile.hunger;
+        float itemThirst = this.choosedItem.ItemProfile.thirst;
+        float itemfiber = this.choosedItem.ItemProfile.fiber;
+        if (!PlayerNeeds.Instance.CanEat(itemHunger)) return false;
+        if (!PlayerNeeds.Instance.CanDrink(itemThirst)) return false;
+        if (!PlayerNeeds.Instance.CanSew(itemfiber)) return false;
+
+        if (itemHunger > 0) PlayerNeeds.Instance.Eat(itemHunger);
+        if (itemThirst > 0) PlayerNeeds.Instance.Drink(itemThirst);
+        if (itemfiber > 0) PlayerNeeds.Instance.Sew(itemfiber);
+        return true;
+    }
+
+    public virtual void DeductFate(int deductNumber)
+    {
+        this.DeductItem(ItemCode.Fate, deductNumber);
+        PlayerCtrl.Instance.Level.SetLevel(0);
+    }
+
+    public virtual void AddFate(int deductNumber)
+    {
+        this.AddItem(ItemCode.Fate, deductNumber);
     }
 }

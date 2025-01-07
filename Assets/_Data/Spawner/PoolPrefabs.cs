@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class PoolPrefabs<T> : SaiBehaviour where T : PoolObj
 {
     [SerializeField] protected List<T> prefabs = new();
+    public List<T> Prefabs { get { return prefabs; } }
 
     protected override void LoadComponents()
     {

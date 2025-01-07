@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public abstract class ButttonAbstract : SaiBehaviour
 {
+    [Header("Button")]
     [SerializeField] protected Button button;
     [SerializeField] protected float doubleClickThreshold = 0.3f;
     [SerializeField] protected float lastClickTime = 0f;         
-
 
     public abstract void OnClick();
 
@@ -47,6 +47,6 @@ public abstract class ButttonAbstract : SaiBehaviour
 
     public virtual void OnDoubleClick()
     {
-        //For overide
+        this.OnClick();
     }
 }

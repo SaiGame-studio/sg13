@@ -15,7 +15,14 @@ MonoBehaviour:
   invCodeName: 2
   itemCode: 102
   itemName: Meat
+  canNegative: 0
   isStackable: 1
   isKarma: 1
-  eatable: 1
+  isInstanceKarma: 1
+  useable: 1
+  isFood: 1
+  fate: 700
+  hunger: 7
+  thirst: 0
+  fiber: 0
   image: {fileID: 21300000, guid: e136fde9de6926449a20f1552ab67559, type: 3}
