@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8979842111485497981}
   - component: {fileID: 631308036435748084}
+  - component: {fileID: 7905414318813443093}
   m_Layer: 0
   m_Name: pointPath_0
   m_TagString: Untagged
@@ -45,3 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextPoint: {fileID: 0}
+--- !u!114 &7905414318813443093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2779435282081571317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd1cc4a0e9d43e4997021fb3e01a18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

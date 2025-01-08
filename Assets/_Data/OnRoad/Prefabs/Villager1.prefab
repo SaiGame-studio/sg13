@@ -33648,7 +33648,7 @@ NavMeshAgent:
   m_Acceleration: 150
   avoidancePriority: 50
   m_AngularSpeed: 200
-  m_StoppingDistance: 1
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -33675,10 +33675,15 @@ MonoBehaviour:
   itemGive: 0
   itemProfileGive: {fileID: 0}
   inventoryManager: {fileID: 0}
+  itemsGive: 
   model: {fileID: 3722246406907802928}
   agent: {fileID: 3994515882048584869}
   animator: {fileID: 2962893004932774114}
   moving: {fileID: 2560123862944118328}
+  karmaRate: 16
+  karmaDefaultRate: 61
+  fateItems: c9000000ca000000cb000000cc000000d2000000d3000000d4000000d5000000d6000000d7000000d8000000
+  karmaItems: 6f00000070000000710000006e0000006d000000cb000000
 --- !u!1 &4308104066709764375
 GameObject:
   m_ObjectHideFlags: 0

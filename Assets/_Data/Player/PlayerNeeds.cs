@@ -19,10 +19,11 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
     [SerializeField] protected int eatPerDayMax = 1;
 
     [Header("Decay Rates")]
-    [SerializeField] protected float hungerDecayRate = 0.2f; // How fast hunger decreases (per second)
-    [SerializeField] protected float thirstDecayRate = 0.3f; // How fast thirst decreases (per second)
-    [SerializeField] protected float fiberDecayRate = 0.1f; // How fast thirst decreases (per second)
-    [SerializeField] protected float restingDecayRate = 0.05f;
+    [SerializeField] protected float hungerDecayRate = 0.3f;
+    [SerializeField] protected float thirstDecayRate = 0.35f; 
+    [SerializeField] protected float fiberDecayRate = 0.1f; 
+    [SerializeField] protected float sleepingDecayRate = 0.05f;
+    [SerializeField] protected float sittingDecayRate = 0.2f;
 
     [Header("Critical Levels")]
     [SerializeField] protected float criticalHunger = 27f; // Threshold for critical hunger
@@ -78,8 +79,12 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
         if (this.isSleeping)
         {
-            hungerRate = this.restingDecayRate;
-            thirstRate = this.restingDecayRate;
+            hungerRate = this.sleepingDecayRate;
+            thirstRate = this.sleepingDecayRate;
+        }else if (PlayerCtrl.Instance.Moving.IsSitting)
+        {
+            hungerRate = this.sittingDecayRate;
+            thirstRate = this.sittingDecayRate;
         }
 
         this.hunger -= hungerRate * Time.deltaTime;

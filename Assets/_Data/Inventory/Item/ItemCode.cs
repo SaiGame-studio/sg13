@@ -3,8 +3,15 @@ public enum ItemCode
     NoItem = 0,
 
     Karma = 100,
-    Gold = 101,
-    Meat = 102,
+    Wine = 109,
+    Gold = 110,
+    Meat1 = 111,
+    Meat2 = 112,
+    Meat3 = 113,
+
+    Skin1 = 121,
+    Skin2 = 122,
+    Skin3 = 123,
 
     Fate = 200,
     Water = 201,
@@ -16,8 +23,18 @@ public enum ItemCode
     Fiber5 = 207,
     Fiber6 = 208,
     Fiber7 = 209,
-    
-    Skin1 = 211,
-    Skin2 = 212,
-    Skin3 = 213,
+    Coconut = 210,
+    Grapes1 = 211,
+    Grapes2 = 212,
+    Grapes3 = 213,
+    Bread = 214,
+    WaterMelon = 215,
+    Cherry = 216,
+
+    Apple1 = 221,
+    Apple2 = 222,
+    Apple3 = 223,
+
+    Berry1 = 231,
+    Berry2 = 232,
 }

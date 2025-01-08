@@ -1,5 +1,6 @@
 using System;
 using com.cyborgAssets.inspectorButtonPro;
+using UnityEngine;
 
 public class InventoryTester : SaiBehaviour
 {
@@ -25,6 +26,7 @@ public class InventoryTester : SaiBehaviour
     {
         for (int i = 0; i < count; i++)
         {
+            Debug.LogWarning("AddTestItems: " + itemCode);
             InventoryManager.Instance.AddItem(itemCode, 1);
         }
     }

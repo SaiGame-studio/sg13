@@ -64,6 +64,46 @@
         {
             "Key": "Red Cloth",
             "Value": "Vải đỏ"
+        },
+        {
+            "Key": "Berry",
+            "Value": "Quả mọng"
+        },
+        {
+            "Key": "Apple",
+            "Value": "Táo"
+        },
+        {
+            "Key": "Cherry",
+            "Value": "Anh đào"
+        },
+        {
+            "Key": "WaterMelon",
+            "Value": "Dưa hấu"
+        },
+        {
+            "Key": "Bread",
+            "Value": "Bánh mì"
+        },
+        {
+            "Key": "Grapes",
+            "Value": "Nho"
+        },
+        {
+            "Key": "Coconut",
+            "Value": "Dừa"
+        },
+        {
+            "Key": "Wine",
+            "Value": "Rượu"
+        },
+        {
+            "Key": "Strawberries",
+            "Value": "Dâu tây"
+        },
+        {
+            "Key": "Omelette",
+            "Value": "Trứng rán"
         }
     ]
 }
