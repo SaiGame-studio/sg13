@@ -1,10 +1,19 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FiberCtrl : OnRoadCtrl
 {
-    [Header("Fiber")]
-    [SerializeField] protected List<ItemCode> giveItems = new()
+    //[Header("Fiber")]
+
+    public override string GetName()
+    {
+        return OnRoadCode.Fiber.ToString();
+    }
+
+    protected override void ResetValue()
+    {
+        base.ResetValue();
+
+        this.itemsGive = new()
         {
             ItemCode.Fiber1,
             ItemCode.Fiber2,
@@ -17,14 +26,5 @@ public class FiberCtrl : OnRoadCtrl
             ItemCode.Skin2,
             ItemCode.Skin3,
         };
-
-    public override string GetName()
-    {
-        return OnRoadCode.Fiber.ToString();
-    }
-
-    protected override ItemCode RandomItem()
-    {
-        return this.inventoryManager.RandomItem(this.giveItems);
     }
 }

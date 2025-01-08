@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,8 @@ public abstract class OnRoadCtrl : PoolObj
     [SerializeField] protected ItemProfileSO itemProfileGive;
     [SerializeField] protected InventoryManager inventoryManager;
 
-    protected abstract ItemCode RandomItem();
+    [SerializeField]
+    protected List<ItemCode> itemsGive = new();
 
     protected virtual void OnEnable()
     {
@@ -68,12 +70,12 @@ public abstract class OnRoadCtrl : PoolObj
         this.itemGive = this.RandomItem();
         this.itemProfileGive = this.inventoryManager.GetProfileByCode(this.itemGive);
         this.giveImage.sprite = this.itemProfileGive.image;
+        this.ShowButtonToLoot();
     }
 
     protected virtual void Reborn()
     {
         this.RandomAndShowItem();
-        this.GiveButton.gameObject.SetActive(true);
     }
 
     public virtual void GiveItem()
@@ -85,5 +87,28 @@ public abstract class OnRoadCtrl : PoolObj
             InventoryManager.Instance.DeductFate(deductNumber);
         }
         this.GiveButton.gameObject.SetActive(false);
+    }
+
+    protected virtual ItemCode RandomItem()
+    {
+        return this.inventoryManager.RandomItem(this.GetGiveItems());
+    }
+
+    protected virtual List<ItemCode> GetGiveItems()
+    {
+        return this.itemsGive;
+    }
+
+    protected virtual void ShowButtonToLoot()
+    {
+        int rand = Random.Range(0, 100);
+        if (rand > this.GetLuckRate()) return;
+        Debug.Log(transform.name + " Rand: " + rand);
+        this.GiveButton.gameObject.SetActive(true);
+    }
+
+    protected virtual int GetLuckRate()
+    {
+        return 80;
     }
 }

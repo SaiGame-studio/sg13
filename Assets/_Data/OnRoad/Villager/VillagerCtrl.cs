@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -20,20 +19,33 @@ public abstract class VillagerCtrl : OnRoadCtrl
     public VillagerMoving Moving { get { return moving; } }
 
     [Header("Fate/Karma")]
-    [SerializeField] protected float karmaRate = 80;
-    [SerializeField] protected float karmaDefaultRate = 80;
+    [SerializeField] protected float karmaRate = 43;
+    [SerializeField] protected float karmaDefaultRate = 43;
     [SerializeField]
     protected List<ItemCode> fateItems = new()
         {
             ItemCode.Water,
             ItemCode.Banana,
+            ItemCode.Fiber1,
+            ItemCode.Fiber2,
+            ItemCode.Coconut,
+            ItemCode.Grapes1,
+            ItemCode.Grapes2,
+            ItemCode.Grapes3,
+            ItemCode.Bread,
+            ItemCode.WaterMelon,
+            ItemCode.Cherry,
         };
 
     [SerializeField]
     protected List<ItemCode> karmaItems = new()
         {
-            ItemCode.Meat,
+            ItemCode.Meat1,
+            ItemCode.Meat2,
+            ItemCode.Meat3,
             ItemCode.Gold,
+            ItemCode.Wine,
+            ItemCode.Fiber1,
         };
 
     public override string GetName()
@@ -63,7 +75,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
         this.agent.speed = 4f;
         this.agent.angularSpeed = 200f;
         this.agent.acceleration = 150f;
-        this.agent.stoppingDistance = 1f;
+        this.agent.stoppingDistance = 0f;
         Debug.Log(transform.name + ": LoadNavMeshAgent", gameObject);
     }
 
@@ -104,7 +116,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
         int karmaPercent = (int)(this.karmaDefaultRate - (playerLevel * 2.5));
         this.karmaRate = karmaPercent;
         int rand = Random.Range(0, 100);
-        if (rand < this.karmaRate) return this.karmaItems;
-        return this.fateItems;
+        if (rand < this.karmaRate) return this.itemsGive = this.karmaItems;
+        return itemsGive = this.fateItems;
     }
 }
