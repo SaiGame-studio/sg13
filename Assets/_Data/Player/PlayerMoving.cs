@@ -111,25 +111,22 @@ public class PlayerMoving : SaiBehaviour
         this.currentPoint = null;
     }
 
-    public virtual void ToggleSitting()
+    protected virtual void DelayCanMove()
     {
-        this.isSitting = !this.isSitting;
+        this.canMove = true;
     }
 
     public virtual void StandUp()
     {
         this.isSitting = false;
+        Invoke(nameof(this.DelayCanMove), 1.2f);
         PlayerNeeds.Instance.CheckEating();
     }
 
-    public virtual void StartSitting()
+    public virtual void SitDown()
     {
         this.isSitting = true;
-    }
-
-    public virtual void StartMoving()
-    {
-        this.canMove = true;
+        this.canMove = false;
     }
 
     public virtual void ToggleWalking()

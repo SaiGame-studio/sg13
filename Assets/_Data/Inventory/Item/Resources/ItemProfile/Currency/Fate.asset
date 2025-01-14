@@ -20,7 +20,9 @@ MonoBehaviour:
   isKarma: 0
   isInstanceKarma: 0
   useable: 0
+  isFood: 0
   fate: 1
   hunger: 0
+  thirst: 0
   fiber: 0
-  image: {fileID: 21300000, guid: 87bae898677a2bd43a67845fed348a00, type: 3}
+  image: {fileID: 21300000, guid: 5e0d42c8d19c90f49bd3be022d025267, type: 3}

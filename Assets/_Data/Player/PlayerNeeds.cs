@@ -11,10 +11,17 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
     public bool IsEathing => isEathing;
 
     [Header("Needs")]
-    [SerializeField] protected float maxNeeds = 100f; // Current hunger level
-    [SerializeField] protected float hunger = 100f; // Current hunger level
-    [SerializeField] protected float thirst = 100f; // Current thirst level
-    [SerializeField] protected float fiber = 70f; // Current thirst level
+    [SerializeField] protected float maxNeeds = 100f;
+    
+    [SerializeField] protected float hunger = 90f;
+    public float Hunger => hunger;
+    
+    [SerializeField] protected float thirst = 90f;
+    public float Thirst => thirst;
+    
+    [SerializeField] protected float fiber = 70f;
+    public float Fiber => fiber;
+
     [SerializeField] protected int eatPerDay = 1;
     [SerializeField] protected int eatPerDayMax = 1;
 

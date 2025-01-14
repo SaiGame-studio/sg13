@@ -9,27 +9,36 @@ public abstract class InventoryCtrl : SaiBehaviour
 
     public abstract InvCodeName GetName();
 
-    public virtual void AddItem(ItemInventory item)
+    public virtual ItemInventory AddItem(ItemInventory item)
     {
         ItemInventory itemExist = this.FindItem(item.ItemProfile.itemCode);
         if (!item.ItemProfile.isStackable || itemExist == null)
         {
-            item.SetId(Random.Range(0, 999999999));
+            item.RandomId();
             this.items.Add(item);
-            return;
+            return item;
         }
 
         itemExist.itemCount += item.itemCount;
+        return itemExist;
     }
 
     public virtual bool RemoveItem(ItemInventory item)
     {
-        Debug.Log("RemoveItem");
+        int remoteCount = item.itemCount;
         ItemInventory itemExist = this.FindItemNotEmpty(item.ItemProfile.itemCode);
-        if (itemExist == null) return false;
-        if (!itemExist.CanDeduct(item.itemCount)) return false;
-        itemExist.Deduct(item.itemCount);
-        if (itemExist.itemCount == 0) this.items.Remove(itemExist);
+        if (itemExist == null)
+        {
+            item.RandomId();
+            itemExist = item;
+            itemExist.itemCount = 0;
+            this.items.Add(itemExist);
+        }
+        if (!itemExist.CanDeduct(remoteCount)) return false;
+
+        itemExist.Deduct(remoteCount);
+
+        if (!itemExist.ItemProfile.canNegative && itemExist.itemCount == 0) this.items.Remove(itemExist);
         return true;
     }
 

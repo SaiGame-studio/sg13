@@ -7,7 +7,7 @@ public class InventoryTester : SaiBehaviour
     protected override void Start()
     {
         base.Start();
-        //this.AddAllItems();
+        this.AddAllItems();
     }
 
     protected virtual void AddAllItems()
@@ -26,7 +26,7 @@ public class InventoryTester : SaiBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            Debug.LogWarning("AddTestItems: " + itemCode);
+            //Debug.LogWarning("AddTestItems: " + itemCode);
             InventoryManager.Instance.AddItem(itemCode, 1);
         }
     }

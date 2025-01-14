@@ -70,6 +70,7 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
         if (this.agent != null) return;
         this.agent = GetComponent<NavMeshAgent>();
         this.agent.speed = 1.6f;
+        this.agent.baseOffset = -0.22f;
         this.agent.angularSpeed = 200f;
         this.agent.acceleration = 150f;
         Debug.Log(transform.name + ": LoadNavMeshAgent", gameObject);

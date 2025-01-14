@@ -30,6 +30,7 @@ public enum ItemCode
     Bread = 214,
     WaterMelon = 215,
     Cherry = 216,
+    Corn = 217,
 
     Apple1 = 221,
     Apple2 = 222,

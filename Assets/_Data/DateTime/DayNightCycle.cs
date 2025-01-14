@@ -10,7 +10,7 @@ public class DayNightCycle : SaiSingleton<DayNightCycle>
 
     [Header("Time Settings")]
     [SerializeField] protected float minutePerDay = 5f;
-    [SerializeField] protected int startHour = 2;
+    [SerializeField] protected int startHour = 4;
     [SerializeField] protected int currentHour;
     [SerializeField] protected int currentMinute;
     [SerializeField] protected int currentDay = 1;

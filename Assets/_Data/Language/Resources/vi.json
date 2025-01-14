@@ -104,6 +104,22 @@
         {
             "Key": "Omelette",
             "Value": "Trứng rán"
+        },
+        {
+            "Key": "Corn",
+            "Value": "Ngô"
+        },
+        {
+            "Key": "Cooked Fish",
+            "Value": "Cá nấu"
+        },
+        {
+            "Key": "violation",
+            "Value": "phạm giới"
+        },
+        {
+            "Key": "merit",
+            "Value": "phước"
         }
     ]
 }

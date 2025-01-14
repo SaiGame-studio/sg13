@@ -26,8 +26,6 @@ public abstract class VillagerCtrl : OnRoadCtrl
         {
             ItemCode.Water,
             ItemCode.Banana,
-            ItemCode.Fiber1,
-            ItemCode.Fiber2,
             ItemCode.Coconut,
             ItemCode.Grapes1,
             ItemCode.Grapes2,
@@ -35,6 +33,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
             ItemCode.Bread,
             ItemCode.WaterMelon,
             ItemCode.Cherry,
+            ItemCode.Corn,
         };
 
     [SerializeField]
@@ -83,7 +82,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
     {
         if (this.model != null) return;
         this.model = transform.Find("Model");
-        this.model.localPosition = new Vector3(0f, 0f, 0f);
+        this.model.localPosition = new Vector3(0f, -0.16f, 0f);
         Debug.Log(transform.name + ": LoadModel", gameObject);
     }
 

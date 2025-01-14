@@ -82,8 +82,7 @@ public class UIInventory : SaiSingleton<UIInventory>
     {
         this.isShow = true;
         this.showHide.gameObject.SetActive(this.isShow);
-        PlayerCtrl.Instance.Moving.StartSitting();
-        PlayerCtrl.Instance.Moving.StartMoving();
+        PlayerCtrl.Instance.Moving.SitDown();
     }
 
     public virtual void Hide()
@@ -144,20 +143,27 @@ public class UIInventory : SaiSingleton<UIInventory>
             if (PlayerNeeds.Instance.IsFinishEat()) eatable = false;
         }
 
-        if(PlayerNeeds.Instance.IsSleeping()) eatable = false;
+        if (PlayerNeeds.Instance.IsSleeping()) eatable = false;
 
         this.txtItemName.text = this.GetItemInfo(choosedItem);
+
+        if (choosedItem.ItemProfile.isKarma) this.txtItemName.color = Color.red;
+        else this.txtItemName.color = Color.white;
+
         this.btnUse.gameObject.SetActive(eatable);
     }
 
     protected virtual string GetItemInfo(ItemInventory choosedItem)
     {
-        string fateSign = "+";
-        if (choosedItem.ItemProfile.isKarma) fateSign = "-";
-
-        string fateCount = fateSign + choosedItem.ItemProfile.fate.ToString();
         string itemName = Language.T(choosedItem.GetItemName());
-        return $"{itemName}: {fateCount}";
+        string karmaString = Language.T("violation");
+        string meritString = Language.T("merit");
+
+        if (choosedItem.ItemProfile.isKarma) return $"{itemName}: {karmaString}";
+
+        string fateSign = "+";
+        string fateCount = fateSign + choosedItem.ItemProfile.fate.ToString();
+        return $"{itemName}: {fateCount} {meritString}";
     }
 
     protected virtual void UpdateFromInventory(InventoryCtrl itemInvCtrl)

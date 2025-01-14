@@ -21,7 +21,7 @@ MonoBehaviour:
   isInstanceKarma: 0
   useable: 1
   isFood: 1
-  fate: 4
+  fate: 10
   hunger: 7
   thirst: 3
   fiber: 0
