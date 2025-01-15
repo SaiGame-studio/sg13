@@ -15,12 +15,17 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
     
     [SerializeField] protected float hunger = 90f;
     public float Hunger => hunger;
-    
+    [SerializeField] protected float hungerReserve = 90f;
+
+
     [SerializeField] protected float thirst = 90f;
     public float Thirst => thirst;
-    
+    [SerializeField] protected float thirstReserve = 90f;
+
+
     [SerializeField] protected float fiber = 70f;
     public float Fiber => fiber;
+    [SerializeField] protected float fiberReserve = 90f;
 
     [SerializeField] protected int eatPerDay = 1;
     [SerializeField] protected int eatPerDayMax = 1;
@@ -39,7 +44,7 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
     public bool IsAlive { get { return isAlive; } }
 
-    private void Update()
+    private void FixedUpdate()
     {
         this.UpdateStatus();
         this.Needing();
@@ -69,6 +74,10 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
         this.hunger = Mathf.Clamp(this.hunger, 0f, 100f);
         this.thirst = Mathf.Clamp(this.thirst, 0f, 100f);
         this.fiber = Mathf.Clamp(this.fiber, 0f, 100f);
+
+        this.hungerReserve = this.hunger + InventoryManager.Instance.FoodReserve();
+        this.thirstReserve = this.thirst + InventoryManager.Instance.WaterReserve();
+        this.fiberReserve = this.fiber + InventoryManager.Instance.FiberReserve();
 
         this.CheckCriticalNeeds();
     }
@@ -146,9 +155,9 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
     protected virtual void CheckCriticalNeeds()
     {
-        if (hunger <= criticalHunger) HandleCriticalHunger();
-        if (thirst <= criticalThirst) HandleCriticalThirst();
-        if (hunger <= 0f && thirst <= 0f) PlayerDeath();
+        if (this.hunger <= criticalHunger) HandleCriticalHunger();
+        if (this.thirst <= criticalThirst) HandleCriticalThirst();
+        if (this.hunger <= 0f && thirst <= 0f) PlayerDeath();
     }
 
     protected virtual void HandleCriticalHunger() { }
@@ -165,14 +174,29 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
         return this.hunger / this.maxNeeds;
     }
 
+    public virtual float HungerReserve()
+    {
+        return this.hungerReserve / this.maxNeeds;
+    }
+
     public virtual float ThirstValue()
     {
         return this.thirst / this.maxNeeds;
     }
 
+    public virtual float ThirstReserve()
+    {
+        return this.thirstReserve / this.maxNeeds;
+    }
+
     public virtual float FiberValue()
     {
         return this.fiber / this.maxNeeds;
+    }
+
+    public virtual float FiberReserve()
+    {
+        return this.fiberReserve / this.maxNeeds;
     }
 
     public virtual void ResetEatPerDay()

@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invCodeName: 2
   itemCode: 209
-  itemName: Silk Cloth
+  itemName: Cloth
   canNegative: 0
   isStackable: 1
-  isKarma: 1
+  isKarma: 0
   isInstanceKarma: 0
   useable: 1
+  isFood: 0
   fate: 16
   hunger: 0
   thirst: 0

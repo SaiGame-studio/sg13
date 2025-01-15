@@ -120,6 +120,14 @@
         {
             "Key": "merit",
             "Value": "phước"
+        },
+        {
+            "Key": "Fruit Juice",
+            "Value": "Nước ép"
+        },
+        {
+            "Key": "Honey",
+            "Value": "Mật ong"
         }
     ]
 }

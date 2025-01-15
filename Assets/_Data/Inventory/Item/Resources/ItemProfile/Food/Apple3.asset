@@ -23,6 +23,6 @@ MonoBehaviour:
   isFood: 1
   fate: 3
   hunger: 3
-  thirst: 0
+  thirst: 1
   fiber: 0
   image: {fileID: 21300000, guid: 1cb2cc4ea9302234b8799cfdc98115dc, type: 3}

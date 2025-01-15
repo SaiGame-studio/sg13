@@ -13,6 +13,15 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     [SerializeField] protected ItemInventory fate;
     public ItemInventory Fate => fate;
 
+    [SerializeField] protected float foodReserve = 0;
+    [SerializeField] protected float waterReserve = 0;
+    [SerializeField] protected float fiberReserve = 0;
+
+    protected virtual void FixedUpdate()
+    {
+        this.CheckReserve();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -188,7 +197,7 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     public virtual void ResetFate()
     {
         int deductNumber = this.fate.itemCount;
-        if(deductNumber < 0) deductNumber = 77;
+        if (deductNumber < 0) deductNumber = 77;
         this.DeductItem(ItemCode.Fate, deductNumber + 1);
         PlayerCtrl.Instance.Level.SetLevel(0);
     }
@@ -201,5 +210,34 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     protected virtual void AddDefaultItems()
     {
         this.fate = this.AddFate(1);
+    }
+
+    public virtual float FoodReserve()
+    {
+        return this.foodReserve;
+    }
+
+    public virtual float WaterReserve()
+    {
+        return this.waterReserve;
+    }
+
+    public virtual float FiberReserve()
+    {
+        return this.fiberReserve;
+    }
+
+    protected virtual void CheckReserve()
+    {
+        this.foodReserve = 0;
+        this.waterReserve = 0;
+        this.fiberReserve = 0;
+        foreach (ItemInventory itemInventory in this.Items().Items)
+        {
+            if (itemInventory.ItemProfile.isKarma) continue;
+            this.foodReserve += itemInventory.ItemProfile.hunger * itemInventory.itemCount;
+            this.waterReserve += itemInventory.ItemProfile.thirst * itemInventory.itemCount;
+            this.fiberReserve += itemInventory.ItemProfile.fiber * itemInventory.itemCount;
+        }
     }
 }

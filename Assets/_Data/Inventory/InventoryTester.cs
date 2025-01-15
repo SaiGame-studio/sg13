@@ -7,7 +7,7 @@ public class InventoryTester : SaiBehaviour
     protected override void Start()
     {
         base.Start();
-        this.AddAllItems();
+        //this.AddAllItems();
     }
 
     protected virtual void AddAllItems()

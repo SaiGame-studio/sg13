@@ -23,6 +23,8 @@ public enum ItemCode
     Fiber5 = 207,
     Fiber6 = 208,
     Fiber7 = 209,
+    Fiber8 = 210,
+    Fiber9 = 211,
     Coconut = 210,
     Grapes1 = 211,
     Grapes2 = 212,
@@ -31,6 +33,9 @@ public enum ItemCode
     WaterMelon = 215,
     Cherry = 216,
     Corn = 217,
+    Water1 = 218,
+    Water2 = 219,
+    Water3 = 220,
 
     Apple1 = 221,
     Apple2 = 222,

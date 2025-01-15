@@ -25,6 +25,9 @@ public abstract class VillagerCtrl : OnRoadCtrl
     protected List<ItemCode> fateItems = new()
         {
             ItemCode.Water,
+            ItemCode.Water1,
+            ItemCode.Water2,
+            ItemCode.Water3,
             ItemCode.Banana,
             ItemCode.Coconut,
             ItemCode.Grapes1,

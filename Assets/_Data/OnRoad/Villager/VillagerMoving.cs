@@ -84,7 +84,7 @@ public class VillagerMoving : SaiBehaviour
 
     protected virtual void ShowGiveButton()
     {
-        if (this.idleState == (int)VillagerIdleCode.Standing) return;
+        //if (this.idleState == (int)VillagerIdleCode.Standing) return;
         this.ctrl.GiveButton.gameObject.SetActive(true);
     }
 
