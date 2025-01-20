@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Water2
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 219
+  itemCode: 259
   itemName: Fruit Juice
   canNegative: 0
   isStackable: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
   useable: 1
   isFood: 0
   fate: 3
-  hunger: 3
+  hunger: 5
   thirst: 12
   fiber: 0
   image: {fileID: 21300000, guid: a9350a5cb96447f40bc22522390c12fb, type: 3}

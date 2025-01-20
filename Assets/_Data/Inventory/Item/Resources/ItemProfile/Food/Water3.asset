@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Water3
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 220
+  itemCode: 260
   itemName: Honey
   canNegative: 0
   isStackable: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
   useable: 1
   isFood: 0
   fate: 3
-  hunger: 5
-  thirst: 5
+  hunger: 7
+  thirst: 7
   fiber: 0
   image: {fileID: 21300000, guid: 2de4918068fa79e4181186466cd3c89b, type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Apple3
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 223
+  itemCode: 263
   itemName: Apple
   canNegative: 0
   isStackable: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
   useable: 1
   isFood: 1
   fate: 3
-  hunger: 3
+  hunger: 5
   thirst: 1
   fiber: 0
   image: {fileID: 21300000, guid: 1cb2cc4ea9302234b8799cfdc98115dc, type: 3}

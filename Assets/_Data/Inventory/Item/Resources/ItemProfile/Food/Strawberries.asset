@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Strawberries
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 232
+  itemCode: 265
   itemName: Strawberries
   canNegative: 0
   isStackable: 1
@@ -21,7 +21,7 @@ MonoBehaviour:
   isInstanceKarma: 0
   useable: 1
   isFood: 1
-  fate: 4
+  fate: 3
   hunger: 3
   thirst: 1
   fiber: 0

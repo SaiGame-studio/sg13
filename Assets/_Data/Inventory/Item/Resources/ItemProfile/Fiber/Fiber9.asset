@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fiber9
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 209
+  itemCode: 211
   itemName: Cloth
   canNegative: 0
   isStackable: 1

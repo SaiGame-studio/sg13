@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cherry
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 216
+  itemCode: 256
   itemName: Cherry
   canNegative: 0
   isStackable: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
   useable: 1
   isFood: 1
   fate: 2
-  hunger: 2
+  hunger: 3
   thirst: 0
   fiber: 0
   image: {fileID: 21300000, guid: da270f1560ba9ae438a9ab00547267f4, type: 3}

@@ -78,6 +78,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
         this.agent.angularSpeed = 200f;
         this.agent.acceleration = 150f;
         this.agent.stoppingDistance = 0f;
+        this.agent.baseOffset = 0f;
         Debug.Log(transform.name + ": LoadNavMeshAgent", gameObject);
     }
 

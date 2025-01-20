@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berries
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 231
+  itemCode: 264
   itemName: Berry
   canNegative: 0
   isStackable: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
   useable: 1
   isFood: 1
   fate: 2
-  hunger: 2
+  hunger: 3
   thirst: 0
   fiber: 0
   image: {fileID: 21300000, guid: 7269a28cbc2843944bc0813eac9a0f70, type: 3}
