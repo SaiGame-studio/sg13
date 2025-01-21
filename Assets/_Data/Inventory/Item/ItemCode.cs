@@ -9,10 +9,6 @@ public enum ItemCode
     Meat2 = 112,
     Meat3 = 113,
 
-    Skin1 = 121,
-    Skin2 = 122,
-    Skin3 = 123,
-
     Fate = 200,
     Water = 201,
     Banana = 202,

@@ -6,6 +6,7 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
 
     [Header("Status")]
     [SerializeField] protected bool noDecay = false;
+    public bool NoDecay { get { return noDecay; } }
     [SerializeField] protected bool isSleeping = false;
     [SerializeField] protected bool isEathing = false;
     public bool IsEathing => isEathing;
