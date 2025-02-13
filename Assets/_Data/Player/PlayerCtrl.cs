@@ -23,6 +23,8 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
     [SerializeField] protected PlayerNeeds needs;
     public PlayerNeeds Needs { get { return needs; } }
 
+    [SerializeField] protected Camera _camera;
+
     [SerializeField] protected bool isHasKarma = false;
     public bool IsHasKarma => isHasKarma;
 
@@ -42,6 +44,15 @@ public class PlayerCtrl : SaiSingleton<PlayerCtrl>
         this.LoadPlayerMoving();
         this.LoadPlayerLevel();
         this.LoadPlayerNeeds();
+        this.LoadPlayerCamera();
+    }
+
+    protected virtual void LoadPlayerCamera()
+    {
+        if (this._camera != null) return;
+        this._camera = GetComponentInChildren<Camera>();
+        this._camera.farClipPlane = 100;
+        Debug.Log(transform.name + ": LoadPlayerCamera", gameObject);
     }
 
     protected virtual void LoadPlayerNeeds()
