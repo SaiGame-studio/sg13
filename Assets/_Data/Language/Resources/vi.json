@@ -104,6 +104,33 @@
         {
             "Key": "Omelette",
             "Value": "Trứng rán"
+        },
+        {
+            "Key": "Corn",
+            "Value": "Ngô"
+        },
+        {
+            "Key": "Cooked Fish",
+            "Value": "Cá nấu"
+        },
+        {
+            "Key": "violation",
+            "Value": "phạm giới"
+        },
+        {
+            "Key": "merit",
+            "Value": "phước"
+        },
+        {
+            "Key": "Fruit Juice",
+            "Value": "Nước ép"
+        },
+        {
+            "Key": "Honey",
+            "Value": "Mật ong"
+        },{
+            "Key": "Pause Game",
+            "Value": "Tạm Dừng"
         }
     ]
 }

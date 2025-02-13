@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bread
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 214
+  itemCode: 254
   itemName: Bread
   canNegative: 0
   isStackable: 1
@@ -21,8 +21,8 @@ MonoBehaviour:
   isInstanceKarma: 0
   useable: 1
   isFood: 1
-  fate: 5
-  hunger: 9
-  thirst: -2
+  fate: 7
+  hunger: 15
+  thirst: 0
   fiber: 0
   image: {fileID: 21300000, guid: 513be8b8c8bbb4b409f6e923da51302c, type: 3}

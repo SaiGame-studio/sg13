@@ -103,7 +103,6 @@ public abstract class OnRoadCtrl : PoolObj
     {
         int rand = Random.Range(0, 100);
         if (rand > this.GetLuckRate()) return;
-        Debug.Log(transform.name + " Rand: " + rand);
         this.GiveButton.gameObject.SetActive(true);
     }
 

@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class SldPlayerThirst : SliderReadOnly
+public class SldThirstPlayer : SliderReadOnly
 {
     protected override float GetValue()
     {

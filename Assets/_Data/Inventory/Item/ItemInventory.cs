@@ -21,9 +21,9 @@ public class ItemInventory
         this.itemName = this.itemProfile.itemName;
     }
 
-    public virtual void SetId(int id)
+    public virtual void RandomId()
     {
-        this.itemId = id;
+        this.itemId = UnityEngine.Random.Range(0, 999999999);
     }
 
     public virtual void SetName(string name)
@@ -48,5 +48,10 @@ public class ItemInventory
     {
         if (this.itemProfile.canNegative) return true;
         return this.itemCount >= number;
+    }
+
+    public virtual string Info()
+    {
+        return $"{itemName}: {itemCount}";
     }
 }

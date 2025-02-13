@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Coconut
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 210
+  itemCode: 250
   itemName: Coconut
   canNegative: 0
   isStackable: 1
@@ -21,8 +21,8 @@ MonoBehaviour:
   isInstanceKarma: 0
   useable: 1
   isFood: 1
-  fate: 4
+  fate: 10
   hunger: 7
-  thirst: 3
+  thirst: 7
   fiber: 0
   image: {fileID: 21300000, guid: 824ef7790505bdf48b8355d7c2732dce, type: 3}

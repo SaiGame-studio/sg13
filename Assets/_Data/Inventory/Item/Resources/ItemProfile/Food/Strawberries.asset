@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Strawberries
   m_EditorClassIdentifier: 
   invCodeName: 2
-  itemCode: 232
+  itemCode: 265
   itemName: Strawberries
   canNegative: 0
   isStackable: 1

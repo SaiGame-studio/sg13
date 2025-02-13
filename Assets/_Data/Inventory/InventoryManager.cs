@@ -10,12 +10,31 @@ public class InventoryManager : SaiSingleton<InventoryManager>
     [SerializeField] protected List<InventoryCtrl> inventories;
     [SerializeField] protected List<ItemProfileSO> itemProfiles;
 
+    [SerializeField] protected ItemInventory fate;
+    public ItemInventory Fate => fate;
+
+    [SerializeField] protected float foodReserve = 0;
+    [SerializeField] protected float waterReserve = 0;
+    [SerializeField] protected float fiberReserve = 0;
+
+    protected virtual void FixedUpdate()
+    {
+        this.CheckReserve();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        this.AddDefaultItems();
+    }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadInventories();
         this.LoadItemProfiles();
     }
+
     protected virtual void LoadInventories()
     {
         if (this.inventories.Count > 0) return;
@@ -85,18 +104,19 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         return this.GetByCodeName(InvCodeName.Items);
     }
 
-    public virtual void AddItem(ItemInventory itemInventory)
+    public virtual ItemInventory AddItem(ItemInventory itemInventory)
     {
         InvCodeName invCodeName = itemInventory.ItemProfile.invCodeName;
         InventoryCtrl inventoryCtrl = InventoryManager.Instance.GetByCodeName(invCodeName);
-        inventoryCtrl.AddItem(itemInventory);
+        return inventoryCtrl.AddItem(itemInventory);
     }
 
-    public virtual void AddItem(ItemCode itemCode, int itemCount)
+    public virtual ItemInventory AddItem(ItemCode itemCode, int itemCount)
     {
         ItemProfileSO itemProfile = InventoryManager.Instance.GetProfileByCode(itemCode);
         ItemInventory item = new(itemProfile, itemCount);
         this.AddItem(item);
+        return item;
     }
 
     public virtual void DeductItem(ItemCode itemCode, int itemCount)
@@ -145,7 +165,7 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         if (!this.CheckPlayerNeed()) return;
 
         int fate = this.choosedItem.ItemProfile.fate;
-        if (this.choosedItem.ItemProfile.isKarma) this.DeductFate(fate);
+        if (this.choosedItem.ItemProfile.isKarma) this.ResetFate();
         else this.AddFate(fate);
 
         if (this.choosedItem.ItemProfile.isFood) PlayerNeeds.Instance.SetEating(true);
@@ -174,8 +194,50 @@ public class InventoryManager : SaiSingleton<InventoryManager>
         PlayerCtrl.Instance.Level.SetLevel(0);
     }
 
-    public virtual void AddFate(int deductNumber)
+    public virtual void ResetFate()
     {
-        this.AddItem(ItemCode.Fate, deductNumber);
+        int deductNumber = this.fate.itemCount;
+        if (deductNumber < 0) deductNumber = 77;
+        this.DeductItem(ItemCode.Fate, deductNumber + 1);
+        PlayerCtrl.Instance.Level.SetLevel(0);
+    }
+
+    public virtual ItemInventory AddFate(int deductNumber)
+    {
+        return this.AddItem(ItemCode.Fate, deductNumber);
+    }
+
+    protected virtual void AddDefaultItems()
+    {
+        this.fate = this.AddFate(1);
+    }
+
+    public virtual float FoodReserve()
+    {
+        return this.foodReserve;
+    }
+
+    public virtual float WaterReserve()
+    {
+        return this.waterReserve;
+    }
+
+    public virtual float FiberReserve()
+    {
+        return this.fiberReserve;
+    }
+
+    protected virtual void CheckReserve()
+    {
+        this.foodReserve = 0;
+        this.waterReserve = 0;
+        this.fiberReserve = 0;
+        foreach (ItemInventory itemInventory in this.Items().Items)
+        {
+            if (itemInventory.ItemProfile.isKarma) continue;
+            this.foodReserve += itemInventory.ItemProfile.hunger * itemInventory.itemCount;
+            this.waterReserve += itemInventory.ItemProfile.thirst * itemInventory.itemCount;
+            this.fiberReserve += itemInventory.ItemProfile.fiber * itemInventory.itemCount;
+        }
     }
 }

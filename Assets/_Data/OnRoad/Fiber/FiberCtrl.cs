@@ -22,9 +22,8 @@ public class FiberCtrl : OnRoadCtrl
             ItemCode.Fiber5,
             ItemCode.Fiber6,
             ItemCode.Fiber7,
-            ItemCode.Skin1,
-            ItemCode.Skin2,
-            ItemCode.Skin3,
+            ItemCode.Fiber8,
+            ItemCode.Fiber9,
         };
     }
 }

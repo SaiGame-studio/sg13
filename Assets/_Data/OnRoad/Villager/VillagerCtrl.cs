@@ -25,9 +25,10 @@ public abstract class VillagerCtrl : OnRoadCtrl
     protected List<ItemCode> fateItems = new()
         {
             ItemCode.Water,
+            ItemCode.Water1,
+            ItemCode.Water2,
+            ItemCode.Water3,
             ItemCode.Banana,
-            ItemCode.Fiber1,
-            ItemCode.Fiber2,
             ItemCode.Coconut,
             ItemCode.Grapes1,
             ItemCode.Grapes2,
@@ -35,6 +36,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
             ItemCode.Bread,
             ItemCode.WaterMelon,
             ItemCode.Cherry,
+            ItemCode.Corn,
         };
 
     [SerializeField]
@@ -76,6 +78,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
         this.agent.angularSpeed = 200f;
         this.agent.acceleration = 150f;
         this.agent.stoppingDistance = 0f;
+        this.agent.baseOffset = 0f;
         Debug.Log(transform.name + ": LoadNavMeshAgent", gameObject);
     }
 
@@ -83,7 +86,7 @@ public abstract class VillagerCtrl : OnRoadCtrl
     {
         if (this.model != null) return;
         this.model = transform.Find("Model");
-        this.model.localPosition = new Vector3(0f, 0f, 0f);
+        this.model.localPosition = new Vector3(0f, -0.16f, 0f);
         Debug.Log(transform.name + ": LoadModel", gameObject);
     }
 

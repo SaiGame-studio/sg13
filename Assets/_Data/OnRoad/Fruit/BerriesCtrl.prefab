@@ -52,6 +52,8 @@ MonoBehaviour:
   currentTime: 7
   isSeePlayer: 0
   seeDistance: 5
+  minDistance: Infinity
+  maxDistance: 52
   playerDistance: Infinity
 --- !u!135 &6465695444900916895
 SphereCollider:
@@ -127,7 +129,7 @@ MonoBehaviour:
   itemGive: 0
   itemProfileGive: {fileID: 0}
   inventoryManager: {fileID: 0}
-  itemsGive: e7000000e8000000
+  itemsGive: 0801000009010000
 --- !u!1001 &8350487102235147938
 PrefabInstance:
   m_ObjectHideFlags: 0

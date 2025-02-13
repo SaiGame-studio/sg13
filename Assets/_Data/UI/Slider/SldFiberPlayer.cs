@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class SldPlayerFiber : SliderReadOnly
+public class SldFiberPlayer : SliderReadOnly
 {
     protected override float GetValue()
     {

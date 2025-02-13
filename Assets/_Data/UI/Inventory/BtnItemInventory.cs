@@ -59,7 +59,8 @@ public class BtnItemInventory : ButttonAbstract
 
     public override void OnDoubleClick()
     {
-        this.ChooseThisItem();
+        //this.ChooseThisItem();
+        InventoryManager.Instance.UseChoosedItem();
     }
 
     public virtual void ChooseThisItem()

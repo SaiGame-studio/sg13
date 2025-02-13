@@ -42,4 +42,14 @@ public class GameManager : SaiSingleton<GameManager>
     {
         return this.ScreenAspectRatio < 1;
     }
+
+    public virtual void Pause()
+    {
+        Time.timeScale = 0.0f;
+    }
+
+    public virtual void UnPause()
+    {
+        Time.timeScale = 1.0f;
+    }
 }

@@ -13339,9 +13339,9 @@ MonoBehaviour:
   agent: {fileID: 3025248735190652434}
   animator: {fileID: 3909836835236303373}
   moving: {fileID: 6683181233050122294}
-  karmaRate: 16
-  karmaDefaultRate: 61
-  fateItems: c9000000ca000000cb000000cc000000d2000000d3000000d4000000d5000000d6000000d7000000d8000000
+  karmaRate: 43
+  karmaDefaultRate: 43
+  fateItems: c9000000020100000301000004010000ca000000fa000000fb000000fc000000fd000000fe000000ff0000000001000001010000
   karmaItems: 6f00000070000000710000006e0000006d000000cb000000
 --- !u!1 &2053038149446136784
 GameObject:
@@ -64738,7 +64738,7 @@ Transform:
   m_GameObject: {fileID: 8651733279404078338}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68193,6 +68193,8 @@ MonoBehaviour:
   currentTime: 7
   isSeePlayer: 0
   seeDistance: 5
+  minDistance: Infinity
+  maxDistance: 52
   playerDistance: Infinity
 --- !u!135 &7805613021192021059
 SphereCollider:
