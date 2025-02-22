@@ -7,7 +7,7 @@ public class InventoryTester : SaiBehaviour
     protected override void Start()
     {
         base.Start();
-        //this.AddAllItems();
+        this.AddAllItems();
     }
 
     protected virtual void AddAllItems()
@@ -17,7 +17,7 @@ public class InventoryTester : SaiBehaviour
             if(item == ItemCode.NoItem) continue;
             if(item == ItemCode.Fate) continue;
             if(item == ItemCode.Karma) continue;
-            this.AddTestItems(item, 900);
+            this.AddTestItems(item, 1);
         }
     }
 

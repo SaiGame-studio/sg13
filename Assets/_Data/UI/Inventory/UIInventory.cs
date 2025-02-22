@@ -10,6 +10,7 @@ public class UIInventory : SaiSingleton<UIInventory>
     [SerializeField] protected Transform showHide;
     [SerializeField] protected BtnItemInventory defaultItemInventoryUI;
     [SerializeField] protected Transform btnUse;
+    [SerializeField] protected Transform btnDiscard;
     [SerializeField] protected Image btnUseImage;
     [SerializeField] protected TextMeshProUGUI txtItemName;
     [SerializeField] protected ImagesSO btnImages;
@@ -37,6 +38,7 @@ public class UIInventory : SaiSingleton<UIInventory>
         this.LoadBtnItemInventory();
         this.LoadShowHide();
         this.LoadBtnEat();
+        this.LoadBtnDiscard();
         this.LoadBtnImages();
         this.LoadTxtItemName();
     }
@@ -60,8 +62,14 @@ public class UIInventory : SaiSingleton<UIInventory>
         if (this.btnUse != null) return;
         this.btnUse = this.showHide.Find("BtnUseItem");
         this.btnUseImage = this.btnUse.GetComponent<Image>();
-        this.btnUse.gameObject.SetActive(false);
         Debug.Log(transform.name + ": LoadBtnEat", gameObject);
+    }
+
+    protected virtual void LoadBtnDiscard()
+    {
+        if (this.btnDiscard != null) return;
+        this.btnDiscard = this.showHide.Find("BtnDiscardItem");
+        Debug.Log(transform.name + ": LoadBtnDiscard", gameObject);
     }
 
     protected virtual void LoadShowHide()
@@ -113,6 +121,7 @@ public class UIInventory : SaiSingleton<UIInventory>
         this.UpdateFromInventory(InventoryManager.Instance.Items());
 
         this.ShowUseButton();
+        this.ShowDiscardButton();
     }
 
     protected virtual void ClearEmptyItems()
@@ -127,11 +136,30 @@ public class UIInventory : SaiSingleton<UIInventory>
         }
     }
 
+    protected virtual void ShowDiscardButton()
+    {
+        ItemInventory choosedItem = InventoryManager.Instance.ChoosedItem;
+        if (choosedItem == null || choosedItem.ItemID == 0)
+        {
+            this.btnDiscard.gameObject.SetActive(false);
+            return;
+        }
+
+        bool enable = true;
+        if (PlayerNeeds.Instance.IsSleeping()) enable = false;
+
+        this.btnDiscard.gameObject.SetActive(enable);
+    }
+
     protected virtual void ShowUseButton()
     {
         bool eatable = true;
         ItemInventory choosedItem = InventoryManager.Instance.ChoosedItem;
-        if (choosedItem.ItemID == 0) return;
+        if (choosedItem == null || choosedItem.ItemID == 0)
+        {
+            this.btnUse.gameObject.SetActive(false);
+            return;
+        }
 
         if (!choosedItem.ItemProfile.useable) eatable = false;
         if (choosedItem.ItemProfile.isKarma) this.btnUseImage.sprite = this.btnImages.images[1];

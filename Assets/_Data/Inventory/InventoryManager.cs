@@ -170,7 +170,21 @@ public class InventoryManager : SaiSingleton<InventoryManager>
 
         if (this.choosedItem.ItemProfile.isFood) PlayerNeeds.Instance.SetEating(true);
 
-        this.choosedItem.Deduct(useCount);
+        this.DeductChoosedItem(useCount);
+    }
+
+    protected virtual void DeductChoosedItem(int count)
+    {
+        this.choosedItem.Deduct(count);
+        if(this.choosedItem.itemCount == 0) this.choosedItem = null;
+    }
+
+    public virtual void DiscardChoosedItem()
+    {
+        int count = 1;
+        if (this.choosedItem.ItemID == 0) return;
+        if (!this.choosedItem.CanDeduct(count)) return;
+        this.DeductChoosedItem(count);
     }
 
     protected virtual bool CheckPlayerNeed()

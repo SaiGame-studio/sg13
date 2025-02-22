@@ -146,6 +146,12 @@
         },{
             "Key": "Unpause",
             "Value": "Chơi tiếp"
+        },{
+            "Key": "Use",
+            "Value": "Dùng"
+        },{
+            "Key": "Discard",
+            "Value": "Xã bỏ"
         }
 
         
