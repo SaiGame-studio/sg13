@@ -126,10 +126,11 @@ MonoBehaviour:
   canvas: {fileID: 617344011272872837}
   giveButton: {fileID: 3129604046365184942}
   giveImage: {fileID: 1444489567199946592}
+  redBackground: {fileID: 2576921434116462476}
   itemGive: 0
   itemProfileGive: {fileID: 0}
   inventoryManager: {fileID: 0}
-  itemsGive: cb000000cc000000cd000000ce000000cf000000d0000000d1000000d2000000d300000079000000
+  itemsGive: cb000000cc000000cd000000ce000000cf000000d0000000d1000000d2000000d3000000
 --- !u!1001 &1520522669370642605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239,6 +240,17 @@ RectTransform:
 --- !u!114 &1444489567199946592 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 77160240175511501, guid: ee89653685c929546bb7b75c82c9e267, type: 3}
+  m_PrefabInstance: {fileID: 1520522669370642605}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2576921434116462476 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3952730196819183393, guid: ee89653685c929546bb7b75c82c9e267, type: 3}
   m_PrefabInstance: {fileID: 1520522669370642605}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

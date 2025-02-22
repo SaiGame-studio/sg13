@@ -14,6 +14,9 @@ public abstract class OnRoadCtrl : PoolObj
     [SerializeField] protected Image giveImage;
     public Image GiveImage { get { return giveImage; } }
 
+    [SerializeField] protected Image redBackground;
+
+
     [SerializeField] protected ItemCode itemGive;
     public ItemCode ItemGive { get { return itemGive; } }
 
@@ -34,6 +37,7 @@ public abstract class OnRoadCtrl : PoolObj
         this.LoadCanvas();
         this.LoadGiveButton();
         this.LoadImage();
+        this.LoadRedBackground();
         this.LoadInventoryManager();
     }
 
@@ -50,6 +54,14 @@ public abstract class OnRoadCtrl : PoolObj
         this.giveImage = this.giveButton.transform.Find("Image").GetComponent<Image>();
         Debug.LogWarning(transform.name + ": LoadImage", gameObject);
     }
+
+    protected virtual void LoadRedBackground()
+    {
+        if (this.redBackground != null) return;
+        this.redBackground = this.giveButton.transform.Find("RedBackground").GetComponent<Image>();
+        Debug.LogWarning(transform.name + ": LoadRedBackground", gameObject);
+    }
+    
 
     protected virtual void LoadCanvas()
     {
@@ -70,6 +82,7 @@ public abstract class OnRoadCtrl : PoolObj
         this.itemGive = this.RandomItem();
         this.itemProfileGive = this.inventoryManager.GetProfileByCode(this.itemGive);
         this.giveImage.sprite = this.itemProfileGive.image;
+        this.redBackground.enabled = this.itemProfileGive.isKarma == true;
         this.ShowButtonToLoot();
     }
 

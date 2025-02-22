@@ -106,7 +106,7 @@ public class DayNightCycle : SaiSingleton<DayNightCycle>
 
     public string GetFormattedTime()
     {
-        string label = Language.T("Day");
+        string label = LanguageManager.T("Day");
         return $"{label} {this.currentDay} - {currentHour:D2}:{currentMinute:D2}";
     }
 

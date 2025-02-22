@@ -129,8 +129,25 @@
             "Key": "Honey",
             "Value": "Mật ong"
         },{
-            "Key": "Pause Game",
-            "Value": "Tạm Dừng"
+            "Key": "Setting",
+            "Value": "Cài đặt"
+        },{
+            "Key": "Language",
+            "Value": "Ngôn ngữ"
+        },{
+            "Key": "Screen Mode",
+            "Value": "Màn hình"
+        },{
+            "Key": "Exit Game",
+            "Value": "Thoát Game"
+        },{
+            "Key": "Pause",
+            "Value": "Tạm ngưng"
+        },{
+            "Key": "Unpause",
+            "Value": "Chơi tiếp"
         }
+
+        
     ]
 }

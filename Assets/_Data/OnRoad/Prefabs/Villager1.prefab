@@ -33616,7 +33616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &103161160520439359
 Transform:
   m_ObjectHideFlags: 0
@@ -33674,6 +33674,7 @@ MonoBehaviour:
   canvas: {fileID: 8136846290394034005}
   giveButton: {fileID: 5986493096546705278}
   giveImage: {fileID: 7814033525198531504}
+  redBackground: {fileID: 6609540327619189596}
   itemGive: 0
   itemProfileGive: {fileID: 0}
   inventoryManager: {fileID: 0}
@@ -69545,6 +69546,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6609540327619189596 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3952730196819183393, guid: ee89653685c929546bb7b75c82c9e267, type: 3}
+  m_PrefabInstance: {fileID: 7882186393231973501}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6991493265308010098 stripped
