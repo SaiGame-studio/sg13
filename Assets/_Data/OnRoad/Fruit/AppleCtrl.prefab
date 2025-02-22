@@ -126,6 +126,7 @@ MonoBehaviour:
   canvas: {fileID: 8002477286983047948}
   giveButton: {fileID: 5544260885039229735}
   giveImage: {fileID: 8328393974294650857}
+  redBackground: {fileID: 4926003193440759557}
   itemGive: 0
   itemProfileGive: {fileID: 0}
   inventoryManager: {fileID: 0}
@@ -231,6 +232,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee89653685c929546bb7b75c82c9e267, type: 3}
+--- !u!114 &4926003193440759557 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3952730196819183393, guid: ee89653685c929546bb7b75c82c9e267, type: 3}
+  m_PrefabInstance: {fileID: 8252361319805085732}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5544260885039229735 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4501186215252116227, guid: ee89653685c929546bb7b75c82c9e267, type: 3}

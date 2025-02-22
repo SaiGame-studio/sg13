@@ -35,14 +35,14 @@ public class UISetting : SaiSingleton<UISetting>
     {
         this.isShow = true;
         this.showHide.gameObject.SetActive(this.isShow);
-        GameManager.Instance.Pause();
+        //GameManager.Instance.Pause();
     }
 
     public virtual void Hide()
     {
         this.showHide.gameObject.SetActive(false);
         this.isShow = false;
-        GameManager.Instance.UnPause();
+        //GameManager.Instance.UnPause();
     }
 
     public virtual void Toggle()

@@ -155,15 +155,15 @@ public class UIInventory : SaiSingleton<UIInventory>
 
     protected virtual string GetItemInfo(ItemInventory choosedItem)
     {
-        string itemName = Language.T(choosedItem.GetItemName());
-        string karmaString = Language.T("violation");
-        string meritString = Language.T("merit");
+        string itemName = LanguageManager.T(choosedItem.GetItemName());
+        string karmaString = LanguageManager.T("violation");
+        string meritString = LanguageManager.T("merit");
 
         if (choosedItem.ItemProfile.isKarma) return $"{itemName}: {karmaString}";
 
         string fateSign = "+";
         string fateCount = fateSign + choosedItem.ItemProfile.fate.ToString();
-        return $"{itemName}: {fateCount} {meritString}";
+        return $"{itemName}";//not use: {fateCount} {meritString}
     }
 
     protected virtual void UpdateFromInventory(InventoryCtrl itemInvCtrl)

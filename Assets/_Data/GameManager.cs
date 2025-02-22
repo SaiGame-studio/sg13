@@ -6,11 +6,13 @@ public class GameManager : SaiSingleton<GameManager>
     [SerializeField] protected int ScreenHeight;
     [SerializeField] protected float ScreenAspectRatio;
     [SerializeField] protected CanvasManager canvasManager;
+    [SerializeField] protected bool isPause = false;
+    public bool IsPause => isPause;
 
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         this.GetScreenSize();
     }
 
@@ -51,5 +53,12 @@ public class GameManager : SaiSingleton<GameManager>
     public virtual void UnPause()
     {
         Time.timeScale = 1.0f;
+    }
+
+    public virtual void TogglePause()
+    {
+        if (this.isPause) this.UnPause();
+        else this.Pause();
+        this.isPause = !this.isPause;
     }
 }

@@ -13331,6 +13331,7 @@ MonoBehaviour:
   canvas: {fileID: 1283714317656942809}
   giveButton: {fileID: 3616111264119183602}
   giveImage: {fileID: 957665689824521276}
+  redBackground: {fileID: 4216077480584158416}
   itemGive: 0
   itemProfileGive: {fileID: 0}
   inventoryManager: {fileID: 0}
@@ -69572,5 +69573,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4216077480584158416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3952730196819183393, guid: ee89653685c929546bb7b75c82c9e267, type: 3}
+  m_PrefabInstance: {fileID: 889583017660521457}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

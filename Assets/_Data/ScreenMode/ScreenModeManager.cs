@@ -40,6 +40,7 @@ public class ScreenModeManager : SaiSingleton<ScreenModeManager>
 
     public void SetScreenMode(string modeName)
     {
+        if (modeName != "FullScreen" && modeName != "Borderless") modeName = "Windowed_" + modeName;
         if (Enum.TryParse(modeName, out ScreenMode mode))
         {
             SetScreenMode(mode);

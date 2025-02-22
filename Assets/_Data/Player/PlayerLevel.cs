@@ -27,7 +27,7 @@ public class PlayerLevel : LevelByItem
 
         int currentLevel = this.maxLevel - this.currentLevel;
 
-        string label = Language.T("Lvl");
+        string label = LanguageManager.T("Lvl");
         return $"{label} {currentLevel}: {expString}/{nextExpString}";
     }
 }
