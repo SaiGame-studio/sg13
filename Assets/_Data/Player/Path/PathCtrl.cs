@@ -37,4 +37,15 @@ public class PathCtrl : SaiBehaviour
     {
         return this.points[index];
     }
+
+    public virtual int PointToIndex(Point checkPoint)
+    {
+        int index = 0;
+        foreach (Point point in this.points)
+        {
+            if(point == checkPoint) return index;
+            index++;
+        }
+        return -1;
+    }
 }

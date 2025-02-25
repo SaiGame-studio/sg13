@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class PlayerMoving : SaiBehaviour
 {
@@ -11,7 +8,7 @@ public class PlayerMoving : SaiBehaviour
     [SerializeField] protected Point currentPoint;
     [SerializeField] protected float pointDistance = Mathf.Infinity;
     [SerializeField] protected float stopDistance = 1f;
-    [SerializeField] protected bool canMove = true;
+    [SerializeField] protected bool canMove = false;
     [SerializeField] protected bool isFinish = false;
     [SerializeField] protected bool isLoopPath = true;
 
@@ -21,7 +18,6 @@ public class PlayerMoving : SaiBehaviour
     [SerializeField] protected bool isSitting = false;
     public bool IsSitting { get { return isSitting; } }
 
-
     protected virtual void OnEnable()
     {
         this.OnReborn();
@@ -30,6 +26,7 @@ public class PlayerMoving : SaiBehaviour
     protected override void Start()
     {
         this.LoadPath();
+        SaveManager.Instance.OnLoadSuccess += HandleOnLoadSaveGameSucess;
     }
 
     void FixedUpdate()
@@ -56,7 +53,7 @@ public class PlayerMoving : SaiBehaviour
         bool isAlive = this.ctrl.Needs.IsAlive;
         if (!this.canMove || this.isSitting || !isAlive)
         {
-            this.ctrl.Agent.isStopped = true;
+            if(this.ctrl.Agent.enabled) this.ctrl.Agent.isStopped = true;
             return;
         }
 
@@ -138,5 +135,24 @@ public class PlayerMoving : SaiBehaviour
     {
         this.ctrl.Model.localPosition = Vector3.zero;
         this.ctrl.Model.localRotation = Quaternion.identity;
+    }
+
+    protected virtual void HandleOnLoadSaveGameSucess()
+    {
+        Debug.LogWarning("HandleOnLoadSaveGameSucess");
+
+        this.ctrl.transform.position = SaveManager.Instance.PlayerPosition;
+        this.ctrl.transform.rotation = Quaternion.Euler(SaveManager.Instance.PlayerRotation);
+        
+        int currentPointIndex = SaveManager.Instance.CurrentPointIndex;
+        this.currentPoint = this.path.GetPoint(currentPointIndex);
+
+        this.canMove = true;
+        this.ctrl.Agent.enabled = true;
+    }
+
+    public virtual int CurrentPointIndex()
+    {
+        return this.path.PointToIndex(this.currentPoint);
     }
 }
