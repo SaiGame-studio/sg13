@@ -15,8 +15,8 @@ public class SaiBehaviour : MonoBehaviour
 
     protected virtual void Reset()
     {
-        this.LoadComponents();
         this.ResetValue();
+        this.LoadComponents();
     }
 
     protected virtual void LoadComponents()

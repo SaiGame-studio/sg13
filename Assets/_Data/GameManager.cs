@@ -9,6 +9,9 @@ public class GameManager : SaiSingleton<GameManager>
     [SerializeField] protected bool isPause = false;
     public bool IsPause => isPause;
 
+    [SerializeField] protected bool isLoadSaveGame = false;
+    public bool IsLoadSaveGame => isLoadSaveGame;
+
     protected override void Awake()
     {
         base.Awake();
@@ -60,5 +63,10 @@ public class GameManager : SaiSingleton<GameManager>
         if (this.isPause) this.UnPause();
         else this.Pause();
         this.isPause = !this.isPause;
+    }
+
+    public virtual void DoneLoadSaveGame()
+    {
+        this.isLoadSaveGame = true;
     }
 }

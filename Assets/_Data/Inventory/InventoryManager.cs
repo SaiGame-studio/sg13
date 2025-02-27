@@ -254,4 +254,12 @@ public class InventoryManager : SaiSingleton<InventoryManager>
             this.fiberReserve += itemInventory.ItemProfile.fiber * itemInventory.itemCount;
         }
     }
+
+    public virtual void LoadSaveData(List<ItemInventory> savedItems)
+    {
+        foreach (ItemInventory itemInventory in savedItems)
+        {
+            this.AddItem(itemInventory.ItemCode, itemInventory.itemCount);
+        }
+    }
 }
