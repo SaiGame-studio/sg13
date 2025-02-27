@@ -1,4 +1,3 @@
-using System.Data;
 using UnityEngine;
 
 public class DayNightCycle : SaiSingleton<DayNightCycle>
@@ -18,6 +17,7 @@ public class DayNightCycle : SaiSingleton<DayNightCycle>
     [SerializeField] protected int currentHour;
     [SerializeField] protected int currentMinute;
     [SerializeField] protected int currentDay = 1;
+    public int CurrentDay { get { return currentDay; } }
     [SerializeField] protected float timeScale = 1f;
     [SerializeField] protected float restTimeScale = 16f;
 
@@ -27,6 +27,7 @@ public class DayNightCycle : SaiSingleton<DayNightCycle>
     [SerializeField] protected AnimationCurve lightIntensityCurve;
     [SerializeField] protected float timeOfDayNormalized;
     [SerializeField] protected float timeElapsed;
+    public float TimeElapsed { get { return timeElapsed; } }
     [SerializeField] protected float secondsPerDay;
     [SerializeField] protected TimeOfDay currentTimeOfDay;
 
@@ -143,5 +144,12 @@ public class DayNightCycle : SaiSingleton<DayNightCycle>
     {
         this.isEatTime = DayNightCycle.Instance.Is(TimeOfDay.Morning);
         this.isSleeping = PlayerNeeds.Instance.IsSleeping();
+    }
+
+    public virtual void LoadSaveData(int currentDay, float timeElapsed)
+    {
+        this.currentDay = currentDay;
+        this.timeElapsed = timeElapsed;
+        if (this.timeElapsed == -1) this.UpdateTime();
     }
 }

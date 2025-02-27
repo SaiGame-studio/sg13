@@ -139,7 +139,7 @@ public class PlayerMoving : SaiBehaviour
 
     protected virtual void HandleOnLoadSaveGameSucess()
     {
-        Debug.LogWarning("HandleOnLoadSaveGameSucess");
+        //Debug.LogWarning("HandleOnLoadSaveGameSucess");
 
         this.ctrl.transform.position = SaveManager.Instance.PlayerPosition;
         this.ctrl.transform.rotation = Quaternion.Euler(SaveManager.Instance.PlayerRotation);

@@ -7,6 +7,9 @@ public class ItemInventory
     [SerializeField] protected int itemId;
     public int ItemID => itemId;
 
+    [SerializeField] protected ItemCode itemCode;
+    public ItemCode ItemCode => itemCode;
+
     protected ItemProfileSO itemProfile;
     public ItemProfileSO ItemProfile => itemProfile;
     
@@ -18,7 +21,11 @@ public class ItemInventory
     {
         this.itemProfile = itemProfile;
         this.itemCount = itemCount;
-        this.itemName = this.itemProfile.itemName;
+        if (this.itemProfile != null)
+        {
+            this.itemName = this.itemProfile.itemName;
+            this.itemCode = itemProfile.itemCode;
+        }
     }
 
     public virtual void RandomId()

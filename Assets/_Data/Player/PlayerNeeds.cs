@@ -236,4 +236,11 @@ public class PlayerNeeds : SaiSingleton<PlayerNeeds>
     {
         return this.isSleeping;
     }
+
+    public virtual void LoadSaveData(float hunger, float thirst, float fiber)
+    {
+        this.hunger = hunger;
+        this.thirst = thirst;   
+        this.fiber = fiber;
+    }
 }
