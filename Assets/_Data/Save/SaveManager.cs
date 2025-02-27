@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveManager : SaiSingleton<SaveManager>
+public class SaveManager : SaiBehaviour
 {
-    [SerializeField] protected PlayerCtrl playerCtrl;
-    [SerializeField] protected DayNightCycle dayNightCycle;
+    [NonSerialized] protected PlayerCtrl playerCtrl;
+    [NonSerialized] protected DayNightCycle dayNightCycle;
     [SerializeField] protected string dataSaveName = "dataSaveName";
     [SerializeField] protected bool canSaveData = true;
 
@@ -26,7 +26,6 @@ public class SaveManager : SaiSingleton<SaveManager>
     [SerializeField] protected float fiber;
     [SerializeField] protected List<ItemInventory> items = new();
 
-    public Action OnLoadSuccess;
     protected virtual void OnApplicationQuit()
     {
         this.Saving();
@@ -123,7 +122,6 @@ public class SaveManager : SaiSingleton<SaveManager>
         if (jsonData != "") this.FromJsonString(jsonData);
 
         GameManager.Instance.DoneLoadSaveGame();
-        this.OnLoadSuccess?.Invoke();
         this.canSaveData = true;
 
         this.OnLoadSaveGameSuccess();
@@ -133,6 +131,7 @@ public class SaveManager : SaiSingleton<SaveManager>
     {
         this.dayNightCycle.LoadSaveData(this.currentDay, this.currentTimeElapsed);
         this.playerCtrl.Needs.LoadSaveData(this.hunger, this.thirst, this.fiber);
+        this.playerCtrl.Moving.LoadSaveData(this.playerPosition, this.playerRotation, this.currentPointIndex);
         InventoryManager.Instance.LoadSaveData(this.items);
     }
 

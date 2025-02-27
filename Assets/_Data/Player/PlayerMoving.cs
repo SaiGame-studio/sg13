@@ -26,7 +26,6 @@ public class PlayerMoving : SaiBehaviour
     protected override void Start()
     {
         this.LoadPath();
-        SaveManager.Instance.OnLoadSuccess += HandleOnLoadSaveGameSucess;
     }
 
     void FixedUpdate()
@@ -137,14 +136,14 @@ public class PlayerMoving : SaiBehaviour
         this.ctrl.Model.localRotation = Quaternion.identity;
     }
 
-    protected virtual void HandleOnLoadSaveGameSucess()
+    public virtual void LoadSaveData(Vector3 pos, Vector3 rot, int pointIndex)
     {
         //Debug.LogWarning("HandleOnLoadSaveGameSucess");
 
-        this.ctrl.transform.position = SaveManager.Instance.PlayerPosition;
-        this.ctrl.transform.rotation = Quaternion.Euler(SaveManager.Instance.PlayerRotation);
+        this.ctrl.transform.position = pos;
+        this.ctrl.transform.rotation = Quaternion.Euler(rot);
         
-        int currentPointIndex = SaveManager.Instance.CurrentPointIndex;
+        int currentPointIndex = pointIndex;
         this.currentPoint = this.path.GetPoint(currentPointIndex);
 
         this.canMove = true;
