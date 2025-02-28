@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class InventoryTester : SaiBehaviour
 {
-    protected override void Start()
-    {
-        base.Start();
-        this.AddAllItems();
-    }
-
+    [ProButton]
     protected virtual void AddAllItems()
     {
         foreach (ItemCode item in Enum.GetValues(typeof(ItemCode)))

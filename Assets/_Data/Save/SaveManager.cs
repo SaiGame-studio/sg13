@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class SaveManager : SaiBehaviour
 {
-    [NonSerialized] protected PlayerCtrl playerCtrl;
-    [NonSerialized] protected DayNightCycle dayNightCycle;
+    [SerializeField] protected PlayerCtrl playerCtrl;
+    [SerializeField] protected DayNightCycle dayNightCycle;
     [SerializeField] protected string dataSaveName = "dataSaveName";
     [SerializeField] protected bool canSaveData = true;
 
@@ -118,11 +118,17 @@ public class SaveManager : SaiBehaviour
     protected virtual void LoadSaveGame()
     {
         Debug.LogWarning("LoadSaveGame");
+        PlayerCtrl playerCtrl = this.playerCtrl;
+        DayNightCycle dayNightCycle = this.dayNightCycle;
+
         string jsonData = SaveSystem.GetString(this.dataSaveName, "");
         if (jsonData != "") this.FromJsonString(jsonData);
 
         GameManager.Instance.DoneLoadSaveGame();
         this.canSaveData = true;
+
+        this.playerCtrl = playerCtrl;
+        this.dayNightCycle = dayNightCycle;
 
         this.OnLoadSaveGameSuccess();
     }
